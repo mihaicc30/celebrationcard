@@ -1,0 +1,21 @@
+<%- include('./partials/header') %>
+
+<%- include ('./partials/messages') %>
+
+
+<div style="display: flex; justify-content: center; margin-top: 3em;">
+<table border="1px solid black" class="ordersTable">
+    <th class="im text-center">Item</th>
+    <th class="iq text-center">Customer</th>
+    <% orders.forEach(function(data) { %>
+        <tr>
+            <td class="ordersTableTd">&nbsp;<%=data.qty%> x <%=data.name%></td>
+            <td class="ordersTableTd">
+                &nbsp;<%=data.customer%><br>
+                &nbsp;<%=data.address%><br>
+                &nbsp;<%=data.email%>
+            </td>
+        </tr>
+        <% } ) %>
+</table>
+</div>

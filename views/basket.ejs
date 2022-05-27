@@ -1,0 +1,62 @@
+<%- include('./partials/header') %>
+
+<%- include ('./partials/messages') %>
+<% var totalprice=0.00 %>
+
+<div class="basket card text-center d-flex flex-column align-items-center">
+    <% if(basket.length>0) { %>
+    <br><h1>Hello <%=user.name%>! <br>This is your basket contents:</h1><br><br>
+    <% counter=0%>
+    <table style="width: fit-content;">
+        <tr><td></td><td></td><td><h3>Product</h3></td><td><h3 class="px-2">Price</h3></td><td><h3 class="px-2">Qty</h3></td><td><h3 class="px-2">Total</h3></td></tr>
+    <% basket.forEach(element => { %>
+        <tr id="row<%=counter%>">
+        <td hidden><%=element._id%>
+        <td class="pl-5"><img src="../pictures/remove.png" style="width: auto;height: 30px;transition: all 0.5s cubic-bezier(0, 1.64, 0.99, 1.63) 0s;" onclick="deleteThis('<%=element._id%>','<%=element.productName%>')" onmouseover="this.style.transform= 'scale(1.5)'" onmouseleave="this.style.transform= 'scale(1)'"></img></td>
+        <td><img src="../pictures/1.jpg" class="basketIMG"></td>
+        <td class="px-5"><%= element.productName%></td> 
+        
+        <td style="width: 20px;"><% for(i=0;i<productDetails.length;i++) {%>
+            <% if( productDetails[i]["name"] == element.productName ) { %>
+                    <%= productDetails[i]["price"] %>
+                <%}}%></td>
+
+        <td ><%= element.qty%></td>
+
+        <td style="width: 30px;" id="totalprice<%=counter%>"><% for(i=0;i<productDetails.length;i++) {%>
+            <% if( productDetails[i]["name"] == element.productName ) { %>
+                    <%= (productDetails[i]["price"] * element.qty).toFixed(2) %>
+                    <% totalprice += parseFloat((productDetails[i]["price"] * element.qty).toFixed(2)) %>
+                <%}%></td>
+            
+        <%counter++}%>
+    </div>
+    <% }); %>
+    <tr ><td colspan="3"></td><td colspan="3" style="height:5px;background-color: black;"></td></tr>
+    <tr>
+        <td colspan="5" style="text-align: right;"><h3>TOTAL<br>£<%=totalprice.toFixed(2)%></h3></td>
+    </tr>
+    </table>
+    
+    <div><form method="post" action="/products">
+        <input type="text" name="userID" value="<%=user._id%>" hidden>
+        <input type="submit" value="Checkout" style="font-size:x-large;padding: 10px;margin-bottom: 3em;">
+    </form></div>
+</div>
+<%} else { %>
+    <h1> 😢 Dear <%=user.name%>.... <br></h1>
+    <div class="d-flex flex-column">
+        <div><h3>Butterflies ran with your cards!</h3></div>
+        <div id="btfh2" class="rounded"><h2>I`m sorry your basket is empty!</h2></div>
+        <img id="btfimg" src="../pictures/butterfly2.png" >
+    </div>
+    <%}%>
+</div>
+<script>
+function deleteThis(param,param2) {
+    console.log(param);
+    document.body.innerHTML += 
+        '<form  id="customForm" action="/removeproduct" method="post"><input type="text" name="productID" value="'+param+'" hidden><input type="text" name="productName" value="'+param2+'" hidden></form>';
+    document.getElementById("customForm").submit();
+}
+</script>

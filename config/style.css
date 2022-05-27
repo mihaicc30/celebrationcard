@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Dela+Gothic+One&family=Festive&family=Grand+Hotel&family=Great+Vibes&family=Josefin+Sans:wght@300&family=Lora:ital@1&family=Noto+Sans&display=swap');
+*, *::before,*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Noto Sans', sans-serif!important;
+    /* -webkit-user-select: none;  /* Chrome all / Safari all */
+    /* -moz-user-select: none;     Firefox all */
+    /* -ms-user-select: none;      IE 10+ */
+    /* -o-user-select: none; */
+    /* user-select: none; */ 
+}
+
+.header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-around;
+    background-color: aliceblue;
+    border-radius: 15px!important;
+    align-items: center
+}
+.navCenter{
+    display: flex;
+    align-items: baseline;
+    gap: 1em;
+}
+.navLeft {
+    cursor: pointer;
+}
+.navLeft:hover {
+    transform: scale(1.4);
+}
+.welcomeModal {
+    display: flex;
+    padding: 2em;
+    background-color: rgb(226 43 43 / 48%);
+    justify-content: space-around;
+}
+#offerPic {
+    width: 80%;
+    cursor: pointer;
+}
+.offerText{ 
+    font-size: min(max(24px, 4vw), 42px);
+    text-align: center;
+}
+.offerContent{
+    display: flex;
+    justify-content: center;
+    
+}
+.aboutShop{
+    text-align: center;
+    gap: 5em;
+    margin-top: 2em;
+    display: flex;
+}
+.shopImg {
+    background-color: aliceblue;
+    border-radius: 15px!important;
+}
+.shopImg > img {
+    margin: 1em 0 1em 0;
+    width: 100%;
+}
+.productList {
+    margin-top: 1em;
+    padding: 1em;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.productListContainer {
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.product {
+    display: flex;
+    align-items: center;
+    margin: 1em 1em 0 1em;
+    /* background-color: rgba(85, 83, 83, 0.76); */
+    height: 200px;
+    width: 200px;
+    transition: 1s ease;
+    border-radius: 25%;
+}
+.product:hover{
+    transform: scale(1.1);
+    border-radius: 10%;
+}
+.hiddenModal{
+    margin: 0 auto;
+    width: 50vw;
+    height: 90vh;
+    background-color: rgba(0, 0, 0, 0.527);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.hiddenModal > form > * {
+    font-size: min(max(14px, 4vw), 27px);
+}
+#closeShopModal {
+    padding: 2em;
+    text-align: right;
+}
+.visible {
+    visibility: visible;
+}
+.productPicture {
+    max-height: 200px;
+    max-width: 200px;
+}
+.ordersTableTd {
+    min-width: 300px;
+}
+#btfimg {
+    width: auto;
+    height: 50vh;
+}
+#btfh2 {
+    background-color: rgb(255 255 255 / 79%);
+    box-shadow: 2px 2px 0 11px hsl(41deg 100% 51% / 77%);
+    transform: translate(125px,200px);
+}
+.basketIMG{
+    width: 100px;
+    height: auto;
+}
+.offerCards{
+    height: auto;
+    width: min(225px, 15vw);
+    cursor: pointer;
+    transition: .5s ease;
+}
+.offerCards:hover{
+    transform: scale(1.4);
+}
+@media (max-width: 800px) {
+    #btfimg {
+        height: 30vh;
+    }
+    #btfh2 {
+        transform: translate(-10px,100px);
+    }
+    #btfh2 > h2{
+        font-size:medium;
+    }
+    .header {
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+    }
+    .navCenter {
+        flex-direction: column;
+    }
+    .aboutShop {
+        flex-direction: column;
+    }
+    .hiddenModal{
+        width: 80vw;
+    }
+}

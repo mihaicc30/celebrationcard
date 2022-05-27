@@ -1,0 +1,31 @@
+<%- include('./partials/header') %>
+
+<%- include ('./partials/messages') %>
+<div class="contactForm card text-center d-flex flex-column">
+    <div class="d-flex flex-column align-items-center">
+        <h2>My Profile</h2>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+        </svg>
+    </div>
+    <form method="post" autocomplete="off"><br><br>	
+        <input type="userid" name="userid" placeholder="userid"  value="<%=profile._id%>" hidden><br>
+        <div>
+            <label for="name">Name</label>
+            <input type="text" name="name" placeholder="name"  value="<%=profile.name%>" <% if(user._id == "6291085b97cb8135d0aff59c"){%>readonly<%}%> ><br>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="email" value="<%=profile.email%>"  <% if(user._id == "6291085b97cb8135d0aff59c"){%>readonly<%}%>><br>
+        </div>
+        <% if(profile.name == "GymShop Admin"){%> <h2>Admin account is not editable! :) </h2> <%}%>
+        <div>
+            <label for="password" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Password</label>
+            <input type="password" name="password" placeholder="password" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
+        </div>
+        <input type="submit" value="Update" class="btn btn-info" formaction="myprofile_update"<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br><br><br><br><br>
+        <input type="submit" value="Delete Account" class="btn btn-danger" formaction="myprofile_delete"<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
+    </form>
+
+</div>

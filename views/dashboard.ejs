@@ -1,0 +1,70 @@
+<%- include('./partials/header') %>
+
+
+<% if(typeof user=="object" ) { %>
+    <div class="welcomeModal" id="welcomeModal">
+        <h1 class="">Welcome back <%= user.name %>!</h1>
+        <button type="button" class="p-3"
+            onclick="document.getElementById('welcomeModal').style.display='none'">X</button>
+    </div>
+
+
+    <% } %>
+<h1><script>console.log(window.location.search)</script></h1>
+<%- include ('./partials/messages') %>
+<div class="offer">
+    <div class="offerText">
+        <a href="/products">GET 50% OFF THIS MONTH ON ALL SELECTED PRODUCTS!</a>
+    </div>
+    <div class="offerContent">
+        <img src="/pictures/card1.png" class="offerCards" onclick="window.location.href='/products'">
+        <img src="/pictures/card2.png" class="offerCards" onclick="window.location.href='/products'">
+        <img src="/pictures/card3.png" class="offerCards" onclick="window.location.href='/products'">
+        <img src="/pictures/card4.png" class="offerCards" onclick="window.location.href='/products'">
+    </div>
+</div>
+
+<div class="aboutShop">
+
+    <div class="a1">
+        <h2>SO GOOD</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam ex at voluptatibus quibusdam
+            impedit fuga omnis maiores sunt. Aliquam, at!</p>
+    </div>
+    <div class="a2">
+        <h2>SO DIVINE</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam ex at voluptatibus quibusdam
+            impedit fuga omnis maiores sunt. Aliquam, at!</p>
+    </div>
+    <div class="a3">
+        <h2>SO PRACTICAL</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quam ex at voluptatibus quibusdam
+            impedit fuga omnis maiores sunt. Aliquam, at!</p>
+    </div>
+</div>
+
+<div class="shopImg">
+    <div class="d-flex flex-row justify-content-center">
+        <div>
+            <img src="/pictures/custom1.jpg" class="offerCards" onclick="window.location.href='/products'">
+        </div>
+        <div class="d-flex flex-column justify-content-center">
+            <h2 class="m-3 text-left">🤩Custom made🤩</h2>
+            <h3 class="m-3 text-left">Help you celebrate even <span style="text-decoration: underline; font-size:larger">better</span>!</h3>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-center">
+        <div class="d-flex flex-column justify-content-center">
+            <h2 class="m-3 text-right">⭐Special order⭐</h2>
+            <h3 class="m-3 text-right">Score extra points with your loved ones!</h3>
+        </div>
+        <div>
+            <img src="/pictures/custom2.jpg" class="offerCards" onclick="window.location.href='/products'">
+        </div>
+    </div>
+</div>
+
+<div class="contactDetails mt-4 mb-5">
+    <a href="/" class="btn btn-secondary btn-block">GymShop</a>
+    <a href="/contact" class="btn btn-secondary btn-block">Contact</a>
+</div>

@@ -1,0 +1,16 @@
+<%- include('./partials/header') %>
+
+<%- include ('./partials/messages') %>
+
+
+
+<div class="contactForm card text-center d-flex flex-column">
+
+    <form method="post"><br><br>
+        <input type="text" name="name" id="" placeholder="name" <% if(user){%>value=<%=user.name%><%}%>><br>
+        <input type="email" name="email" id="" placeholder="email"<% if(user){%>value=<%=user.email%><%}%>><br>
+        <textarea type="text" name="message" id="" placeholder="message" rows="4" cols="50"></textarea><br><br>
+        <input type="submit" value="Submit"><br><br>
+    </form>
+
+</div>

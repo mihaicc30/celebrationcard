@@ -1,0 +1,79 @@
+<%- include('./partials/header') %>
+
+<%- include ('./partials/messages') %>
+
+<div style="text-align: center;"><button type="button" style="justify-content: center" class="px-1 mt-5 btn btn-secondary" onclick="
+    document.getElementById('product_manager1').style.display='none';
+    document.getElementById('product_manager3').style.display='none';
+    document.getElementById('product_manager2').style.display='block';
+    document.getElementById('name').value = '';
+    document.getElementById('price').value = '';
+            document.getElementById('hiddenModal').classList.toggle('visible');
+    ">Insert Product</button></div>
+
+
+<div class="productList card text-center">
+    <% counter=1 %>
+        <% products.forEach(function(data) { %>
+           
+            <p id="id<%= counter %>" style="display: none;"> <%= data._id %></p>
+
+            <div class="productListContainer"
+            onclick="
+            document.getElementById('hiddenModal').classList.toggle('visible');
+            document.getElementById('product_manager2').style.display='none';
+            document.getElementById('product_manager1').style.display='block';
+            document.getElementById('product_manager3').style.display='block';
+            document.getElementById('name').value=document.getElementById('p<%= counter %>').innerHTML ;
+            document.getElementById('price').value = document.getElementById('price<%= counter %>').innerHTML.replace('£','').trim();
+            document.getElementById('product_id').value = document.getElementById('id<%= counter %>').innerHTML.trim();
+            document.getElementById('photo').value = '<%= data.photo %>';
+            ">
+            
+                <div class="product">
+                    <img src="/pictures/<%=data.photo%>" class="productPicture" id="photo<%= counter %><%= data.photo %>">
+                </div>
+                <p id="p<%= counter %>" style="font-size: 1.4em;font-weight: bold;"><%= data.name %></p>
+                <div style="font-weight: bold; transform: translateY(-20px);" id="price<%= counter %>">£<%= data.price %>
+                </div>
+            </div>
+
+            <% counter++ } )  %>
+
+</div>
+
+<div class="hiddenModal" id="hiddenModal" style="visibility: hidden">
+    <button type="button" id="closeShopModal"
+        onclick="document.getElementById('hiddenModal').classList.toggle('visible')">X</button><br><br>
+    <form method="post" style="display: flex; flex-direction: column; justify-content:center;">
+        <input name="product_id" id="product_id" type="text" style="text-align: center;display: none;" ><br>
+        <input name="name" id="name" type="text" style="text-align: center" placeholder="name" autocomplete="off" minlength="1"><br>
+        <input name="price" id="price" type="text" style="text-align: center" placeholder="price" minlength="1" onkeypress="return /[0-9.]/i.test(event.key)"  autocomplete="off"><br>
+
+        <select id="photo" name="photo" class="rounded">
+            <option value="prod(1).jpg">wheel</option>
+            <option value="prod(2).jpg">dumbell</option>
+            <option value="prod(3).jpg">spring</option>
+            <option value="prod(4).jpg">cord</option>
+            <option value="prod(5).jpg">abs tool</option>
+            <option value="prod(6).jpg">standup bench</option>
+            <option value="prod(7).jpg">sweat suit</option>
+            <option value="prod(8).jpg">dumbell pack</option>
+            <option value="prod(9).jpg">yoga mat</option>
+            <option value="prod(10).jpg">cords pack</option>
+            <option value="prod(11).jpg">all-in-one thing?</option>
+        </select>
+
+        <input type="submit" value="Update" class="px-1 mt-2 btn btn-warning" formaction="product_manager1" id="product_manager1"><br>
+        <input type="submit" value="Insert" class="px-1 btn btn-success" formaction="product_manager2" id="product_manager2"><br>
+        <input type="submit" value="Delete" class="px-1 btn btn-danger" formaction="product_manager3" id="product_manager3"><br>
+    </form>
+</div>
+<script>
+    if(window.location.pathname == "/product_manager" || window.location.pathname == "/product_manager1" || window.location.pathname == "/product_manager2" || window.location.pathname == "/product_manager3") {
+        document.addEventListener('keydown', function(event){
+	        if(event.key === "Escape"){
+                document.getElementById('hiddenModal').classList.remove('visible')
+            }})
+    }
+</script>
