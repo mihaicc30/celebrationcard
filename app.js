@@ -57,6 +57,7 @@ app.all('*', (req, res) => {
   res.render("./page_not_found.ejs")
 })
 
-app.listen('4444', console.log("Server Online!"));
+const PORT = process.env.PORT || 4444;
+app.listen(PORT, console.log(`Server running on ${PORT}`));
 
 // http://localhost:4444
