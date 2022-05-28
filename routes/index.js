@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const db = require('../config/keys').mongoURI;
 var ObjectId = require('mongodb').ObjectID;
 const Baskets = require('../models/Baskets');
+const Products = require('../models/Products');
 
 const dotenv = require('dotenv');
 const { resolveContent } = require('nodemailer/lib/shared');
@@ -89,43 +90,6 @@ router.post('/products', ensureAuthenticated, async (req, res) => { //, ensureAu
   })
 })
 
-
-// if (req.method === 'POST') {
-// console.log("STRIPE POST REQUEST");
-
-// try {
-//   // Create Checkout Sessions from body params.
-//   const session = await stripe.checkout.sessions.create({
-
-//     line_items: [
-//       //need a loop
-
-//       {
-//         price_data: {
-//           currency: "gbp",
-//           unit_amount: 333,
-//           product_data: {
-//             name: name,
-//           },
-//         },
-//         quantity: qty,
-//       }
-//     ],
-//     customer_email: email,
-//     mode: 'payment',
-//     payment_method_types: [
-//       "card"
-//     ],
-//     success_url: `${req.headers.origin}/products/?success=true`,
-//     cancel_url: `${req.headers.origin}/products/?canceled=true`,
-//   })
-//   res.redirect(303, session.url)
-// } catch (err) {
-//   res.status(err.statusCode || 500).json(err.message);
-// } }
-// })
-
-
 // basket Page
 router.get('/basket', ensureAuthenticated, (req, res) => {
   mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
@@ -207,84 +171,94 @@ router.post('/contact', (req, res) =>
 
 
 // product manager page
-router.get('/product_manager', (req, res) => //, ensureAuthenticated
-
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    if (err) { console.log(err) } else {
-      db.collection("products").find().sort({ "price": 1 }).toArray(function (err, result) {
-        if (err) { console.log(err) } else {
-          res.render('product_manager', {
-            user: req.user,
-            products: result
-          })
-        }
-      })
-    }
-  }).close)
+router.get('/product_manager', (req, res) => {//, ensureAuthenticated
+  var queryz = Products.find().sort({ name: 1 })
+  queryz.exec(function (err, results) {
+    if (err) return handleError(err);
+    res.render('product_manager', {
+      user: req.user,
+      products: results
+    })
+  })
+})
 
 // post products manager page update
-router.post('/product_manager1', (req, res) => //, ensureAuthenticated
-
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    var { product_id, name, price, photo } = req.body;
-    if (err) { console.log(err) } else {
-      delete req.body._id;
-      db.collection("products").updateOne({ _id: new ObjectId(product_id) }, { $set: { "price": price, "name": name, "photo": photo } });  // yes i know its deprecated!!! but still works! :D
-
-      db.collection("products").find().sort({ "price": 1 }).toArray(function (err, result) {
-        if (err) { console.log(err) } else {
-          res.render('product_manager', {
-            user: req.user,
-            products: result,
-            success_msg: "Product updated!"
-          })
-        }
+router.post('/product_manager1', (req, res) => {//, ensureAuthenticated
+  var { product_id, name, price } = req.body;
+  var queryz = Products.updateOne({ _id: product_id }, { $set: { "name": name, "price": price } })
+  var promise1 = new Promise((resolve, reject) => {
+    queryz.exec(function (err, results) {
+      if (err) return handleError(err);
+      resolve(results)
+    })
+  })
+  var queryz2 = Products.find().sort({ name: 1 })
+  promise1.then(async (value) => {
+    try {
+      queryz2.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('product_manager', {
+          user: req.user,
+          products: results
+        })
       })
-    }
-  }).close
-)
-// post products manager page insert
-router.post('/product_manager2', (req, res) => //, ensureAuthenticated
-
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    var { product_id, name, price, photo } = req.body;
-    if (err) { console.log(err) } else {
-
-      db.collection("products").insertOne({ "price": Double(price), "name": name, "photo": photo });
-
-      db.collection("products").find().sort({ "price": 1 }).toArray(function (err, result) {
-        if (err) { console.log(err) } else {
-          res.render('product_manager', {
-            user: req.user,
-            products: result,
-            success_msg: "Product updated!"
-          })
-        }
-      })
+    } catch (err) {
+      res.status(err.statusCode || 500).json(err.message);
     }
   })
-)
-// post products manager page delete
-router.post('/product_manager3', (req, res) => //, ensureAuthenticated
+})
 
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    var { product_id, name, price } = req.body;
-    if (err) { console.log(err) } else {
+// post products manager page insert
+router.post('/product_manager2', (req, res) => {//, ensureAuthenticated
+  var {name, price } = req.body;
 
-      db.collection("products").deleteOne({ _id: new ObjectId(product_id) });
-
-      db.collection("products").find().sort({ "price": 1 }).toArray(function (err, result) {
-        if (err) { console.log(err) } else {
-          res.render('product_manager', {
-            user: req.user,
-            products: result,
-            success_msg: "Product updated!"
-          })
-        }
+  var queryz = Products.create({ "name": name, "price": price })
+  var promise1 = new Promise((resolve, reject) => {
+    queryz.then(function (err, results) {
+      resolve(results)
+    })
+  })
+  var queryz2 = Products.find().sort({ name: 1 })
+  promise1.then(async (value) => {
+    try {
+      queryz2.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('product_manager', {
+          user: req.user,
+          products: results
+        })
       })
+    } catch (err) {
+      res.status(err.statusCode || 500).json(err.message);
     }
-  }).close
-)
+  })
+})
+
+// post products manager page delete
+router.post('/product_manager3', (req, res) => { //, ensureAuthenticated
+  
+  var { product_id } = req.body
+  var queryz = Products.deleteOne({ _id: product_id })
+  var promise1 = new Promise((resolve, reject) => {
+    queryz.then(function (err, results) {
+      resolve(results)
+    })
+  })
+  var queryz2 = Products.find().sort({ name: 1 })
+  promise1.then(async (value) => {
+    try {
+      queryz2.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('product_manager', {
+          user: req.user,
+          products: results
+        })
+      })
+    } catch (err) {
+      res.status(err.statusCode || 500).json(err.message);
+    }
+  })
+})
 
 // products page
 router.get('/orders_manager', (req, res) => //, ensureAuthenticated
