@@ -4,16 +4,14 @@ const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
 const { Double } = require('mongodb');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
-const db = require('../config/keys').mongoURI;
-var ObjectId = require('mongodb').ObjectID;
 const Baskets = require('../models/Baskets');
 const Products = require('../models/Products');
 const Orders = require('../models/Orders');
+const User = require('../models/User');
 
 const dotenv = require('dotenv');
-const { resolveContent } = require('nodemailer/lib/shared');
-const User = require('../models/User');
 dotenv.config();
+var db = process.env.mongoURI;
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 

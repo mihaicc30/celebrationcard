@@ -7,6 +7,11 @@ const passport = require('passport');
 const User = require('../models/User');
 const { forwardAuthenticated } = require('../config/auth');
 
+const dotenv = require('dotenv');
+dotenv.config();
+var db = process.env.mongoURI;
+
+
 // Login Page
 router.get('/login', forwardAuthenticated, (req, res) => res.render('login'));
 

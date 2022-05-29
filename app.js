@@ -8,7 +8,10 @@ const app = express();
 
 //passport config
 require('./config/passport')(passport);
-const db = require('./config/keys').mongoURI;
+
+const dotenv = require('dotenv');
+dotenv.config();
+var db = process.env.mongoURI;
 
 //MongoDB test connection
 mongoose.connect(db,{   
