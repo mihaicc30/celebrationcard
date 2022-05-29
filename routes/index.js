@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticated, forwardAuthenticated } = require('../config/auth');
-const { Double } = require('mongodb');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const Baskets = require('../models/Baskets');
