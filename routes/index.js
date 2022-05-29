@@ -8,9 +8,11 @@ const db = require('../config/keys').mongoURI;
 var ObjectId = require('mongodb').ObjectID;
 const Baskets = require('../models/Baskets');
 const Products = require('../models/Products');
+const Orders = require('../models/Orders');
 
 const dotenv = require('dotenv');
 const { resolveContent } = require('nodemailer/lib/shared');
+const User = require('../models/User');
 dotenv.config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
@@ -293,36 +295,47 @@ router.get('/myprofile', ensureAuthenticated, (req, res) => //, ensureAuthentica
     }
   }).close)
 // myprofile_update page post
-router.post('/myprofile_update', ensureAuthenticated, (req, res) =>
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    var { userid, name, email, password } = req.body;
-    if (err) { console.log(err) } else {
+router.post('/myprofile_update', ensureAuthenticated, (req, res) => {
+  var { userid, name, email, password, address1, address2, city, postcode } = req.body;
 
-      bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hashedPassword) => {
-          password = hashedPassword;
-          db.collection("users").updateOne({ _id: new ObjectId(userid) }, { $set: { "email": email, "name": name, "password": hashedPassword } }).then(
-            db.collection("users").find({ "email": req.user.email }).toArray(function (er, result) {
-              if (err) { console.log(err) } else {
-                res.render('myprofile', {
-                  user: req.user,
-                  profile: result[0]
-                })
-              }
-            })
-          )
+  bcrypt.genSalt(10, (err, salt) => {
+    bcrypt.hash(password, salt, (err, hashedPassword) => {
+      passwordh = hashedPassword
+      var queryz = User.updateOne({ _id: userid }, {
+        $set: {
+          "email": email, "name": name, "password": passwordh,
+          "city": city, "address1": address1, "address2": address2, "postcode": postcode
+        }
+      })
+
+      var promise1 = new Promise((resolve, reject) => {
+        queryz.exec().then(function (err, results) {
+          resolve(results)
         })
       })
-    }
-  }))
+      var queryz2 = User.find({ _id: userid })
+      promise1.then(async (value) => {
+        try {
+          queryz2.exec(function (err, results) {
+            if (err) return handleError(err);
+            res.render('myprofile', {
+              user: req.user,
+              profile: results[0]
+            })
+          })
+        } catch (err) {
+          res.status(err.statusCode || 500).json(err.message);
+        }
+      })
+    })
+  })
+})
+
 // myprofile_delete page post
-router.post('/myprofile_delete', ensureAuthenticated, (req, res) =>
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    var { userid } = req.body;
-    if (err) { console.log(err) } else {
-      db.collection("users").deleteOne({ _id: new ObjectId(userid) }).then(
-        req.flash('success', 'Your account has been successfully deleted.'),
-        res.redirect('dashboard'))
-    }
-  }))
+router.post('/myprofile_delete', ensureAuthenticated, (req, res) => {
+var { userid } = req.body;
+  User.deleteOne({ _id: userid}).exec().then(
+    req.flash('success_msg', `Account successfully deleted.`),
+    res.redirect('dashboard') )
+})
 module.exports = router;

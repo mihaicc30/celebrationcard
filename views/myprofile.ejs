@@ -11,21 +11,39 @@
     </div>
     <form method="post" autocomplete="off"><br><br>	
         <input type="userid" name="userid" placeholder="userid"  value="<%=profile._id%>" hidden><br>
-        <div>
+        <div class="userProfile d-flex flex-column">
+        
             <label for="name">Name</label>
-            <input type="text" name="name" placeholder="name"  value="<%=profile.name%>" <% if(user._id == "6291085b97cb8135d0aff59c"){%>readonly<%}%> ><br>
-        </div>
-        <div>
+            <input type="text" name="name" placeholder="name"  value="<%=profile.name%>" <% if(user._id == "6291085b97cb8135d0aff59c"){%>readonly<%}%> >
+        
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="email" value="<%=profile.email%>"  <% if(user._id == "6291085b97cb8135d0aff59c"){%>readonly<%}%>><br>
-        </div>
+            <input type="email" name="email" placeholder="email" value="<%=profile.email%>"  <% if(user._id == "6291085b97cb8135d0aff59c"){%>readonly<%}%>>
+        
         <% if(profile.name == "GymShop Admin"){%> <h2>Admin account is not editable! :) </h2> <%}%>
-        <div>
+        
             <label for="password" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Password</label>
             <input type="password" name="password" placeholder="password" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
-        </div>
-        <input type="submit" value="Update" class="btn btn-info" formaction="myprofile_update"<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br><br><br><br><br>
-        <input type="submit" value="Delete Account" class="btn btn-danger" formaction="myprofile_delete"<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
+       
+
+            <label for="address1" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Address Line 1</label>
+            <input type="text" value="<%=profile.address1%>" name="address1" placeholder="Address Line 1" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+        
+            <label for="address2" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Address Line 2</label>
+            <input type="text" value="<%=profile.address2%>" name="address2" placeholder="Address Line 2" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+       
+            <label for="city" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>City</label>
+            <input type="text" value="<%=profile.city%>" name="city" placeholder="City" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+        
+            <label for="postcode" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Postcode</label>
+            <input type="text" value="<%=profile.postcode%>" name="postcode" placeholder="Postcode" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+      
+            <label for="country" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Country</label>
+            <input type="text" name="country" placeholder="Country" autocomplete="off" value="United Kingdom"  readonly<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
+      
+
+        <input type="submit" value="Update" class="btn btn-info" formaction="myprofile_update"<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br>
+        <input type="submit" value="Delete Account" class="btn btn-danger" formaction="myprofile_delete"<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br><br><br><br><br>
+    </div>
     </form>
 
 </div>

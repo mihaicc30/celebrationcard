@@ -153,6 +153,15 @@
 .offerCards:hover{
     transform: scale(1.4);
 }
+.userProfile {
+    width: fit-content;
+    margin: 0 auto;
+}
+.userProfile > label {
+    text-align: start;
+    color: rgb(197, 197, 197);
+    transform: translateY(10px);
+}
 @media (max-width: 800px) {
     #btfimg {
         height: 30vh;

@@ -3,17 +3,17 @@ const expressLayouts = require('express-ejs-layouts');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const flash = require('connect-flash');
-const session = require('express-session');
+const session = require('cookie-session');
 const app = express();
-const cors = require("cors")
-const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 //passport config
 require('./config/passport')(passport);
 const db = require('./config/keys').mongoURI;
 
 //MongoDB test connection
-mongoose.connect(db,{ useNewUrlParser: true ,useUnifiedTopology: true})
+mongoose.connect(db,{   
+  useNewUrlParser: true,
+  useUnifiedTopology: true})
   .then(() => console.log('MongoDB Connected'))
   .catch(err => console.log(err));
 
@@ -55,6 +55,14 @@ app.use('/pictures', express.static('./pictures'));
 
 app.all('*', (req, res) => {
   res.render("./page_not_found.ejs")
+})
+
+
+process.on("SIGHUP", function () {
+  console.log("Stopping NodeJS server.");
+  setTimeout(function() {
+    process.exit();
+ }, 2000);
 })
 
 const PORT = process.env.PORT || 4444;
