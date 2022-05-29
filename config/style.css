@@ -129,7 +129,31 @@
     max-width: 200px;
 }
 .ordersTableTd {
-    min-width: 300px;
+    max-width: 400px;
+    padding: .4em;
+}
+.OMinput {
+    border: none;
+    width: 316px;
+    padding: 2px;
+    
+}
+.OMinputqt{
+    border: none;
+    width: 40px;
+    padding: 2px;
+}
+.actionButton {
+    width: 100px;
+    padding: .5em;
+    margin: 5px;
+    border-radius: 10%;
+}
+.OMinput3{
+    width: 200px;
+    padding: 2px;
+    border: none;
+    font-weight: bold;
 }
 #btfimg {
     width: auto;

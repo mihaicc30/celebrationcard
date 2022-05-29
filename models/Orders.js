@@ -1,17 +1,41 @@
 const mongoose = require('mongoose');
 
 const OrdersSchema = new mongoose.Schema({
+  userTOTAL: {
+    type: String,
+    required: true
+  },
   userID: {
     type: String,
     required: true
   },
-  productName: {
+  userNAME: {
     type: String,
     required: true
   },
-  qty: {
+  userEMAIL: {
     type: String,
     required: true
+  },
+  userADDRESS: {
+    type: String,
+    required: true
+  },
+  userORDER: {
+    type: Object,
+    required: true
+  },
+  userMESSAGE: {
+    type: String,
+    default: null
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  },
+  adminSEEN: {
+    type: String,
+    default: "1"
   }
 });
 

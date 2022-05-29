@@ -1,0 +1,123 @@
+<%- include('./partials/header') %>
+
+<%- include ('./partials/messages') %>
+<%
+const d_t = new Date();
+let year = d_t.getFullYear();
+let month = d_t.getMonth();
+let day = d_t.getDate();
+let hour = d_t.getHours();
+let minute = d_t.getMinutes()
+var total = 0.00;
+%>
+<script>
+    function printContent(el,el2){
+        var restorepage = $('body').html();
+        var printcontent = $('#' + el ).add($('#' + el2 )).clone();
+        $('body').empty().html(printcontent);
+        window.print();
+        $('body').html(restorepage);
+    }
+</script>
+
+
+<div class="card card-body">
+    <h1><%=user.name%> your order is complete!</h1><br>
+    <button id="print" onclick="printContent('navLeft','invoice');" >Print Invoice</button>
+
+    <table id="invoice" style="margin: 4em 0 4em 0;">
+        <tr>
+            <td style="font-weight: bold;">FROM</td>
+            <td></td>
+            <td style="font-weight: bold;">INVOICE ID</td>
+            <td>#<%=orderID%></td>
+        </tr>
+        <tr>
+            <td>CelebrationCard Ltd</td>
+            <td></td>
+            <td style="font-weight: bold;">INCOICE DATE</td>
+            <td><%= year%>-<%=month%>-<%=day%>-<%=hour%>:<%= minute %></td>
+        </tr>
+        <tr>
+            <td>Little Washbourne</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Tewkesbury</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>GL20 8NQ</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr style="height: 15px;"></tr>
+        <tr>
+            <td style="font-weight: bold;">BILL TO</td>
+            <td style="font-weight: bold;">SHIP TO</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><%=user.name%></td>
+            <td><%=user.name%></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><%=user.address1%>,
+                <%if(user.address2.length > 0) { %> <%=user.address2%>, <% } %>
+                </td>
+            <td><%=user.address1%>,
+                <%if(user.address2.length > 0) { %> <%=user.address2%>, <% } %>
+                </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><%=user.city%></td>
+            <td><%=user.city%></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><%=user.postcode%></td>
+            <td><%=user.postcode%></td>
+            <td></td>
+            <td></td>
+        </tr>
+    <tr style="height: 100px;"></tr>
+    <tr>
+        <td style="font-weight: bold;text-align: center;">QTY</td>
+        <td style="font-weight: bold;">DESCRIPTION</td>
+        <td style="font-weight: bold;text-align: center;">UNIT PRICE</td>
+        <td style="font-weight: bold;text-align: center;">AMOUNT</td>
+    </tr>
+    <% basket.forEach(b => { %>
+        <tr>
+            <td style="text-align: center;"><%=b.qty%></td>
+            <td><%= b.productName %> </td>
+            <td style="text-align: center;">£ <% product.forEach(p => { if(p.name === b.productName) { %><%= p.price %><% } %><%  }) %> </td>
+            <td style="text-align: center;">£ <% product.forEach(p => { if(p.name === b.productName) { %><%= (p.price * b.qty).toFixed(2) %><% total += parseFloat((p.price * b.qty).toFixed(2))%><% } %><%  }) %> </td>
+        </tr>
+
+    <% }); %>
+    <tr>
+        <td></td>
+        <td></td>
+        <td style="text-align: center;border-bottom: 1pt solid black;">20% VAT</td>
+        <td style="text-align: center;border-bottom: 1pt solid black;">£ <%= (( 20 * total ) / 100).toFixed(2) %></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td style="text-align: center;font-weight: bold;font-size:xx-large">TOTAL</td>
+        <td style="text-align: center;font-weight: bold;font-size:xx-large">£ <%= total %></td>
+    </tr>
+</table>
+</div>

@@ -17,6 +17,107 @@ dotenv.config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 
+
+// products page
+router.get('/orders_manager', (req, res) => {//, ensureAuthenticated
+  var queryz = Orders.find().sort({ date: -1 })
+  queryz.exec(function (err, results) {
+    if (err) return handleError(err);
+    res.render('orders_manager', {
+      user: req.user,
+      orders: results
+    })
+  })
+
+})
+
+// orders_manager_delete page
+router.post('/orders_manager_delete', (req, res) => {//, ensureAuthenticated
+  var { orderID } = req.body
+  if (req.path.includes("delete")) {
+    var queryz = Orders.deleteOne({ _id: req.body.orderID }).exec()
+    res.redirect('orders_manager')
+  }
+})
+// orders_manager_markseen page
+router.post('/orders_manager_markseen', (req, res) => {//, ensureAuthenticated
+  var { orderID } = req.body
+  if (req.path.includes("markseen")) {
+    var queryz = Orders.updateOne({ _id: req.body.orderID },{$set:{adminSEEN:"2"}}).exec()
+    res.redirect('orders_manager')
+  }
+})
+
+// orders_manager_markseen page
+router.post('/orders_manager_markunseen', (req, res) => {//, ensureAuthenticated
+  var { orderID } = req.body
+  if (req.path.includes("markunseen")) {
+    var queryz = Orders.updateOne({ _id: req.body.orderID },{$set:{adminSEEN:"1"}}).exec()
+    res.redirect('orders_manager')
+  }
+})
+
+// orders_manager_update page
+router.post('/orders_manager_update', (req, res) => {//, ensureAuthenticated
+
+  var queryz = Orders.findByIdAndUpdate({ _id:req.body.orderID },{$set:{
+        userTOTAL:req.body.userTOTAL, userNAME:req.body.userNAME, userEMAIL:req.body.userEMAIL,userADDRESS:req.body.userADDRESS,userMESSAGE:req.body.userMESSAGE,adminSEEN:req.body.adminSEEN
+      }}).sort({ date: -1 })
+  queryz.exec()
+    res.redirect('orders_manager')
+
+})
+
+
+// complete order Page
+router.get('/complete', ensureAuthenticated, (req, res) => {
+  if (req.query['success']) {
+    var queryz = Baskets.find({ userID: String(req.user._id).slice(0) })
+    queryz.exec(function (err, results) {
+      if (err) return handleError(err);
+      if(results.length>0){
+
+        var queryz2 = Products.find()
+      queryz2.exec(function (err, results2) {
+        if (err) return handleError(err);
+
+        var total = 0;
+        results.forEach(b => {
+          results2.forEach(p => {
+            if (p.name == b.productName) {
+              (p.price * b.qty).toFixed(2);
+              total += parseFloat((p.price * b.qty).toFixed(2))
+            }
+          });
+        })
+        var queryz3 = new Orders({ userTOTAL: total, userID: req.user._id, userNAME: req.user.name, userEMAIL: req.user.email, userADDRESS: req.user.address1 + "," + req.user.address2 + "," + req.user.city + "," + req.user.postcode, userORDER: { results } })
+        queryz3.save(function (err, results3) {
+          if (err) return console.log(err);
+
+          var queryz4 = Baskets.deleteMany({ userID: req.user._id })
+          queryz4.exec();
+
+          res.render('complete', {
+            user: req.user,
+            basket: results,
+            product: results2,
+            orderID: results3._id
+          })
+        })
+      })
+      } else {
+        res.render('complete', {
+          user: req.user,
+          basket: {},
+          product: {},
+          orderID: {}
+        })
+      }
+    })
+  }
+})
+
+
 // remove products page
 router.post('/removeproduct', ensureAuthenticated, function (req, res) {
   var { productID, productName } = req.body;
@@ -38,9 +139,8 @@ router.post('/add', ensureAuthenticated, function (req, res) {
 });
 
 // products submit page
-router.post('/products', ensureAuthenticated, async (req, res) => { //, ensureAuthenticated
+router.post('/products', ensureAuthenticated, async (req, res) => { //
   var { userID } = req.body;
-  // console.log(userID);
 
   const promise1 = new Promise((resolve, reject) => {
     mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
@@ -76,14 +176,34 @@ router.post('/products', ensureAuthenticated, async (req, res) => { //, ensureAu
       });
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create({
+        shipping_options: [
+          {
+            shipping_rate_data: {
+              type: 'fixed_amount',
+              fixed_amount: {
+                amount: 500,
+                currency: 'gbp',
+              },
+              display_name: 'On custom orders',
+              // Delivers in exactly 1 business day
+              delivery_estimate: {
+                maximum: {
+                  unit: 'business_day',
+                  value: 10,
+                },
+              }
+            }
+          },
+        ],
         line_items: customerList,
         customer_email: req.user.email,
         mode: 'payment',
         payment_method_types: [
           "card"
         ],
-        success_url: `${req.headers.origin}/basket/?success=true`,
-        cancel_url: `${req.headers.origin}/basket/?canceled=true`,
+        
+        success_url: `${req.headers.origin}/complete?success=true`,
+        cancel_url: `${req.headers.origin}/basket?canceled=true`,
       })
       res.redirect(303, session.url)
     } catch (err) {
@@ -212,7 +332,7 @@ router.post('/product_manager1', (req, res) => {//, ensureAuthenticated
 
 // post products manager page insert
 router.post('/product_manager2', (req, res) => {//, ensureAuthenticated
-  var {name, price } = req.body;
+  var { name, price } = req.body;
 
   var queryz = Products.create({ "name": name, "price": price })
   var promise1 = new Promise((resolve, reject) => {
@@ -238,7 +358,7 @@ router.post('/product_manager2', (req, res) => {//, ensureAuthenticated
 
 // post products manager page delete
 router.post('/product_manager3', (req, res) => { //, ensureAuthenticated
-  
+
   var { product_id } = req.body
   var queryz = Products.deleteOne({ _id: product_id })
   var promise1 = new Promise((resolve, reject) => {
@@ -262,22 +382,6 @@ router.post('/product_manager3', (req, res) => { //, ensureAuthenticated
   })
 })
 
-// products page
-router.get('/orders_manager', (req, res) => //, ensureAuthenticated
-
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    if (err) { console.log(err) } else {
-      db.collection("orders").find().toArray(function (err, result) {
-        if (err) { console.log(err) } else {
-          res.render('orders_manager', {
-            user: req.user,
-            orders: result
-          })
-        }
-
-      })
-    }
-  }).close)
 
 // my profile page get
 router.get('/myprofile', ensureAuthenticated, (req, res) => //, ensureAuthenticated
@@ -333,9 +437,9 @@ router.post('/myprofile_update', ensureAuthenticated, (req, res) => {
 
 // myprofile_delete page post
 router.post('/myprofile_delete', ensureAuthenticated, (req, res) => {
-var { userid } = req.body;
-  User.deleteOne({ _id: userid}).exec().then(
+  var { userid } = req.body;
+  User.deleteOne({ _id: userid }).exec().then(
     req.flash('success_msg', `Account successfully deleted.`),
-    res.redirect('dashboard') )
+    res.redirect('dashboard'))
 })
 module.exports = router;

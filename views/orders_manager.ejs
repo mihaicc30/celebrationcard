@@ -1,21 +1,62 @@
 <%- include('./partials/header') %>
 
 <%- include ('./partials/messages') %>
+<% 
+var unseen = "#00000000"
+var unseen2 = "#0000002e"
 
+
+var seen ="#ff000000"
+var seen2 ="#ff000047"
+%> 
 
 <div style="display: flex; justify-content: center; margin-top: 3em;">
-<table border="1px solid black" class="ordersTable">
-    <th class="im text-center">Item</th>
-    <th class="iq text-center">Customer</th>
-    <% orders.forEach(function(data) { %>
+
+
+<table border="1px solid black" class="ordersTable mb-5">
+    <th class="im text-center">#</th>
+    <th class="im text-center">Customer</th>
+    <th class="iq text-center">Actions</th>
+    <%counter=1%>
+    
+    <% orders.forEach(function(o) { %>
+        <form method="post">
         <tr>
-            <td class="ordersTableTd">&nbsp;<%=data.qty%> x <%=data.name%></td>
-            <td class="ordersTableTd">
-                &nbsp;<%=data.customer%><br>
-                &nbsp;<%=data.address%><br>
-                &nbsp;<%=data.email%>
+            <td rowspan="3" style="text-align: center;writing-mode: vertical-rl;transform: rotate(180deg);"><br><%=String(o.date).substring(8,10)%>-<%=o.date.getMonth()%>-<%=String(o.date).substring(11,15)   %></td>
+            <td class="ordersTableTd"  <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen2%>;" <%} else { %> style="background-color: <%=unseen2%>;"<% }%> >
+                <input hidden type="text" name="orderID" value="<%=o._id%>" class="OMinput" >
+                <input type="text" name="userNAME" value="<%=o.userNAME%>" class="OMinput" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>
+                <input type="text" name="userEMAIL" value="<%=o.userEMAIL%>" class="OMinput" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>
+                <input type="text" name="userADDRESS" value="<%=o.userADDRESS%>" class="OMinput" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>
+                <div style="display: inline-flex;"><span style="font-weight:bold">£</span><strong></strong><input type="text" name="userTOTAL" value="<%=o.userTOTAL%>" class="OMinput3"<%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>></div> 
+            <td <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen2%>;" <%} else { %> style="background-color: <%=unseen2%>;"<% }%>>
+                <%if(o.adminSEEN === "1"){%> <h3>NEW!</h3> <%}%>
+                <input type="submit" value="Delete" class="actionButton btn btn-primary" formaction="/orders_manager_delete"><br>
             </td>
-        </tr>
-        <% } ) %>
+            </tr> 
+<tr>   
+    <td class="ordersTableTd text-center" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen2%>;" <%} else { %> style="background-color: <%=unseen2%>;"<% }%>>
+        <% o.userORDER['results'].forEach(ord => { %>
+        <div>
+            <input readonly <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%> type="text" name="qty" value="<%=ord.qty%>" class="OMinputqt" ><span <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>x</span>
+            <input readonly type="text" name="productName" value="<%=ord.productName%>" class="OMinput" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>
+        </div><%  }); %>
+    </td>
+    <td <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen2%>;" <%} else { %> style="background-color: <%=unseen2%>;"<% }%>>
+        <button type="submit" value="Mark as seen" class="actionButton btn btn-secondary" formaction="/orders_manager_markseen">Mark as <br>seen</button><br>
+        <button type="submit" value="Mark as seen" class="actionButton btn btn-light" formaction="/orders_manager_markunseen">Mark as <br>unseen</button><br>
+        <button type="submit" value="Update" class="actionButton btn btn-danger" formaction="/orders_manager_update">Update</button><br>
+    </td>
+</tr>   
+<tr>
+    <td colspan="2">
+        <% if(o.userMESSAGE < 3) {%> 
+            <input type="text" name="userMESSAGE" value="No aditional message." class="OMinput" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>
+            <% } else { %>
+            <input type="text" name="userMESSAGE" value="<%=o.userMESSAGE%>" class="OMinput" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>
+        <%  } %>
+        </td>
+</tr>
+</form> <%counter++ } ) %>
 </table>
 </div>
