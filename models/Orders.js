@@ -27,7 +27,7 @@ const OrdersSchema = new mongoose.Schema({
   },
   userMESSAGE: {
     type: String,
-    default: null
+    default: "null"
   },
   date: {
     type: Date,

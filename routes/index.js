@@ -17,12 +17,18 @@ dotenv.config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 
-router.post('/upload', (req, res) => {
-  var imgFile  = req.body.imgFile;
-  console.log(imgFile);
- 
 
-});
+// product manager page
+router.post('/extraMessage', (req, res) => {//, ensureAuthenticated
+  var queryz = Orders.updateOne({ _id: req.body.orderIDD },{$set:{ userMESSAGE: req.body.textarea }})
+  queryz.exec(function (err, results) {
+    if (err) return handleError(err);
+    res.render('dashboard', {
+      user: req.user,
+      success_msg: "Your message has been successfully added! Thank you!"
+    })
+  })
+})
 
 // products page
 router.get('/orders_manager', (req, res) => {//, ensureAuthenticated

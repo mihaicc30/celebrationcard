@@ -120,4 +120,15 @@ var total = 0.00;
         <td style="text-align: center;font-weight: bold;font-size:xx-large">£ <%= total %></td>
     </tr>
 </table>
+<div class="extraMessage card card-body d-flex" style="margin: 0 auto;text-align: center;">
+    <form action="/extraMessage" method="post">
+        <div>
+            <h3>Would you like to leave a note with your order?</h3></div>
+        
+        <div>
+            <textarea name="textarea" id="" cols="30" rows="10"></textarea></div>
+        <input type="text" name="orderIDD"  value="<%=orderID%>" hidden>
+        <input type="submit" name="Send!">
+    </form>
+</div>
 </div>
