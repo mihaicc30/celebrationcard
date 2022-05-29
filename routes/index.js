@@ -190,7 +190,7 @@ router.post('/products', ensureAuthenticated, async (req, res) => { //
             shipping_rate_data: {
               type: 'fixed_amount',
               fixed_amount: {
-                amount: 500,
+                amount: 200,
                 currency: 'gbp',
               },
               display_name: 'On custom orders',

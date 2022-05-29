@@ -15,31 +15,12 @@
         </form>
         <div class="product"><img src="<%=data.img%>" class="productPicture"></div>
         <p id="p<%= counter %>" style="font-size: 1.4em;font-weight: bold;word-break: break-word;overflow: hidden;white-space: nowrap;width: 200px;" onmouseenter="this.style='font-size: 1.4em;font-weight: bold;overflow:visible;word-break: break-all;width: 200px'" onmouseleave="this.style='overflow:hidden;white-space: nowrap;width: 200px;word-break: break-word;font-size: 1.4em;font-weight: bold;'"><%= data.name %></p>
-                
         <div style="font-weight: bold; transform: translateY(-20px);">£<%= data.price %></div>
         <div style="display: flex; flex-direction: row;">
-
-            
         </div>
     </div>
     <% counter++ } )  %>
-
 </div>
-
-<!-- <div class="hiddenModal" id="hiddenModal" style="visibility: hidden">
-    <button type="button" id="closeShopModal"
-        onclick="document.getElementById('hiddenModal').classList.toggle('visible')">X</button><br><br>
-    <form method="post">
-        <input name="name" id="name" type="text" style="text-align: center" readonly><br>
-        
-
-                    <input type="number" placeholder="1" value="1" style="text-align: center"><br>
-                    <button type="submit" value="" class="px-5">Add to Basket</button><br>
-        // need to change to basket
-
-    </form>
-</div> -->
-
 
 <div class="contactDetails mt-4 mb-5">
     <a href="/" class="btn btn-secondary btn-block">GymShop</a>
