@@ -1,6 +1,0 @@
-    user: mihaisolent@gmail.com
-    pass: mihaisolentmihaisolent
-https://app.simplefileupload.com/account/buckets/1538/images
-
-    mihaisolent
-    mihaisolentmihaisolent
