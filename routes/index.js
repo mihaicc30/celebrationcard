@@ -17,6 +17,12 @@ dotenv.config();
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 
+router.post('/upload', (req, res) => {
+  var imgFile  = req.body.imgFile;
+  console.log(imgFile);
+ 
+
+});
 
 // products page
 router.get('/orders_manager', (req, res) => {//, ensureAuthenticated
@@ -306,8 +312,8 @@ router.get('/product_manager', (req, res) => {//, ensureAuthenticated
 
 // post products manager page update
 router.post('/product_manager1', (req, res) => {//, ensureAuthenticated
-  var { product_id, name, price } = req.body;
-  var queryz = Products.updateOne({ _id: product_id }, { $set: { "name": name, "price": price } })
+  var { product_id, name, price, img } = req.body;
+  var queryz = Products.updateOne({ _id: product_id }, { $set: { "name": name, "price": price, "img":img } })
   var promise1 = new Promise((resolve, reject) => {
     queryz.exec(function (err, results) {
       if (err) return handleError(err);
@@ -332,9 +338,9 @@ router.post('/product_manager1', (req, res) => {//, ensureAuthenticated
 
 // post products manager page insert
 router.post('/product_manager2', (req, res) => {//, ensureAuthenticated
-  var { name, price } = req.body;
+  var { name, price, img } = req.body;
 
-  var queryz = Products.create({ "name": name, "price": price })
+  var queryz = Products.create({ "name": name, "price": price, "img": img })
   var promise1 = new Promise((resolve, reject) => {
     queryz.then(function (err, results) {
       resolve(results)

@@ -13,8 +13,9 @@
         <tr id="row<%=counter%>">
             <td hidden><%=element._id%>
             <td class="pl-5"><img src="../pictures/remove.png" style="width: auto;height: 30px;transition: all 0.5s cubic-bezier(0, 1.64, 0.99, 1.63) 0s;" onclick="deleteThis('<%=element._id%>','<%=element.productName%>')" onmouseover="this.style.transform= 'scale(1.5)'" onmouseleave="this.style.transform= 'scale(1)'"></img></td>
-            <td><img src="../pictures/1.jpg" class="basketIMG"></td>
+            <td><img src="<% productDetails.forEach(prod => { %><% if(prod.name === element.productName) { %><%=prod.img%><%}%><% }); %>" class="basketIMG"></td>
             <td class="px-5" style="overflow:hidden;width: 200px;word-break: break-word;"><%= element.productName%></td> 
+          
             
             <td style="width: 20px;"><% for(i=0;i<productDetails.length;i++) {%>
                 <% if( productDetails[i]["name"] == element.productName ) { %>
