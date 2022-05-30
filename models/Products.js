@@ -12,6 +12,10 @@ const ProductsSchema = new mongoose.Schema({
   img: {
     type: String,
     default: "null"
+  },
+  cat: {
+    type: String,
+    default: "null"
   }
 });
 

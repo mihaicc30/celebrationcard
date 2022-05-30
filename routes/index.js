@@ -14,6 +14,90 @@ var db = process.env.mongoURI;
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 
+// products sorting page
+router.get('/products', ensureAuthenticated, (req, res) => {
+  switch (req.query["sortingBy"]) {
+    case "Birthday":
+      var queryz = Products.find({ cat: "Birthday" })
+      queryz.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('products', {
+          user: req.user,
+          products: results
+        })
+      })
+      break;
+    case "New Year":
+      var queryz = Products.find({ cat: "New Year" })
+      queryz.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('products', {
+          user: req.user,
+          products: results
+        })
+      })
+      break;
+    case "Easter":
+      var queryz = Products.find({ cat: "Easter" })
+      queryz.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('products', {
+          user: req.user,
+          products: results
+        })
+      })
+      break;
+    case "Christmas":
+      var queryz = Products.find({ cat: "Christmas" })
+      queryz.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('products', {
+          user: req.user,
+          products: results
+        })
+      })
+      break;
+    case "For Her":
+      var queryz = Products.find({ cat: "For Her" })
+      queryz.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('products', {
+          user: req.user,
+          products: results
+        })
+      })
+      break;
+    case "For Him":
+      var queryz = Products.find({ cat: "For Him" })
+      queryz.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('products', {
+          user: req.user,
+          products: results
+        })
+      })
+      break;
+    case "Custom":
+      var queryz = Products.find({ cat: "Custom" })
+      queryz.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('products', {
+          user: req.user,
+          products: results
+        })
+      })
+      break;
+    default:
+      var queryz = Products.find()
+      queryz.exec(function (err, results) {
+        if (err) return handleError(err);
+        res.render('products', {
+          user: req.user,
+          products: results
+        })
+      })
+  }
+})
 
 // product manager page
 router.post('/extraMessage', (req, res) => {//, ensureAuthenticated
@@ -267,20 +351,20 @@ router.get('/contact', (req, res) => //, ensureAuthenticated
     user: req.user
   })
 );
-// products page
-router.get('/products', ensureAuthenticated, (req, res) =>
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    if (err) { console.log(err) } else {
-      db.collection("products").find().sort({ "price": 1 }).toArray(function (err, result) {
-        if (err) { console.log(err) } else {
-          res.render('products', {
-            user: req.user,
-            products: result
-          })
-        }
-      })
-    }
-  }))
+// // products page
+// router.get('/products', ensureAuthenticated, (req, res) =>
+//   mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
+//     if (err) { console.log(err) } else {
+//       db.collection("products").find().sort({ "price": 1 }).toArray(function (err, result) {
+//         if (err) { console.log(err) } else {
+//           res.render('products', {
+//             user: req.user,
+//             products: result
+//           })
+//         }
+//       })
+//     }
+//   }))
 
 // Contact post page
 router.post('/contact', (req, res) =>
@@ -315,8 +399,8 @@ router.get('/product_manager', (req, res) => {//, ensureAuthenticated
 
 // post products manager page update
 router.post('/product_manager1', (req, res) => {//, ensureAuthenticated
-  var { product_id, name, price, img } = req.body;
-  var queryz = Products.updateOne({ _id: product_id }, { $set: { "name": name, "price": price, "img":img } })
+  var { product_id, name, price, img, cat } = req.body;
+  var queryz = Products.updateOne({ _id: product_id }, { $set: { "name": name, "price": price, "img":img, "cat":cat } })
   var promise1 = new Promise((resolve, reject) => {
     queryz.exec(function (err, results) {
       if (err) return handleError(err);

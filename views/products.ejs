@@ -2,17 +2,19 @@
 
 
 <%- include ('./partials/messages') %>
-<div class="d-flex flex-row">
-    <div class="productList card card-body" style="width: 258px;">
-        <div style="position: fixed;">
-            <h6>Categories</h6>
-            <li>Birthday</li>
-            <li>New Year</li>
-            <li>Easter</li>
-            <li>Christmas</li>
-            <li>For Her</li>
-            <li>For Him</li>
-            <li>🤩Custom</li>
+<div class="productListParent d-flex flex-row">
+    <div class="productList" style="max-width: 258px!important; z-index: 2;">
+        <div class="divCats" style="position: inherit;left: 7%;">
+            <div class="cats">
+                <form method="get"><li><input type="submit" name="sortingBy" value="Clear Sorting" class="btn btn-info"></li></form>
+                <form method="get"><li><input type="submit" name="sortingBy" value="Birthday" class="btn btn-link"></li></form>
+                <form method="get"><li><input type="submit" name="sortingBy" value="New Year" class="btn btn-link"></li></form>
+                <form method="get"><li><input type="submit" name="sortingBy" value="Easter" class="btn btn-link"></li></form>
+                <form method="get"><li><input type="submit" name="sortingBy" value="Christmas" class="btn btn-link"></li></form>
+                <form method="get"><li><input type="submit" name="sortingBy" value="For Her" class="btn btn-link"></li></form>
+                <form method="get"><li><input type="submit" name="sortingBy" value="For Him" class="btn btn-link"></li></form>
+                <form method="get"><li>🤩<input type="submit" name="sortingBy" value="Custom" class="btn btn-link m-0 p-0">🤩</li></form>
+            </div>
         </div>
     </div>
     <div class="productList card text-center">
@@ -39,7 +41,7 @@
 
 
 <div class="contactDetails mt-4 mb-5">
-    <a href="/" class="btn btn-secondary btn-block">GymShop</a>
+    <a href="/dashboard" class="btn btn-secondary btn-block">CelebrationCard</a>
     <a href="/contact" class="btn btn-secondary btn-block">Contact</a>
 </div>
 

@@ -10,6 +10,7 @@
     document.getElementById('product_manager2').style.display='block';
     document.getElementById('name').value = '';
     document.getElementById('price').value = '';
+    document.getElementById('cat').value = '';
     document.getElementById('img').value = '';
             document.getElementById('hiddenModal').classList.toggle('visible');
     ">Insert Product</button>
@@ -32,6 +33,7 @@
             document.getElementById('product_manager3').style.display='block';
             document.getElementById('name').value=document.getElementById('p<%= counter %>').innerHTML ;
             document.getElementById('img').value=document.getElementById('img<%= counter %>').src ;
+            document.getElementById('cat').value=document.getElementById('cat<%= counter %>').innerHTML ;
             document.getElementById('price').value = document.getElementById('price<%= counter %>').innerHTML.replace('£','').trim();
             document.getElementById('product_id').value = document.getElementById('id<%= counter %>').innerHTML.trim();
             ">
@@ -40,8 +42,8 @@
                     <img id="img<%= counter %>" src="<%=data.img%>" class="productPicture" id>
                 </div>
                 <p id="p<%= counter %>" style="font-size: 1.4em;font-weight: bold;word-break: break-word;overflow: hidden;white-space: nowrap;width: 200px;" onmouseover="this.style='font-size: 1.4em;font-weight: bold;overflow:visible;word-break: break-all;width: 200px;position:absolute;margin-top: 220px;'" onmouseleave="this.style='overflow:hidden;white-space: nowrap;width: 200px;word-break: break-word;font-size: 1.4em;font-weight: bold;'"><%= data.name %></p>
-                <div style="font-weight: bold; transform: translateY(-20px);" id="price<%= counter %>">£<%= data.price %>
-                </div>
+                <div style="font-weight: bold; transform: translateY(-20px);" id="price<%= counter %>">£<%= data.price %></div>
+                <div style="font-weight: bold; transform: translateY(-20px);" id="cat<%= counter %>"><%= data.cat %></div>
             </div>
 
             <% counter++ } )  %>
@@ -58,6 +60,7 @@
         <input name="product_id" id="product_id" type="text" style="text-align: center;display: none;" ><br>
         <input name="name" id="name" type="text" style="text-align: center" placeholder="name" autocomplete="off" minlength="1"><br>
         <input name="price" id="price" type="text" style="text-align: center" placeholder="price" minlength="1" onkeypress="return /[0-9.]/i.test(event.key)"  autocomplete="off"><br>
+        <input name="cat" id="cat" type="text" style="text-align: center" placeholder="price" minlength="1" onkeypress="return /[a-z A-Z.]/i.test(event.key)"  autocomplete="off"><br>
 
         <input name="img" id="img" type="text" style="text-align: center" placeholder="img" autocomplete="off" minlength="1"><br>
 
