@@ -22,7 +22,7 @@ var seen2 ="#ff000047"
     <% orders.forEach(function(o) { %>
         <form method="post">
         <tr>
-            <td rowspan="3" style="text-align: center;writing-mode: vertical-rl;transform: rotate(180deg);"><br><%=String(o.date).substring(8,10)%>-<%=o.date.getMonth()%>-<%=String(o.date).substring(11,15)   %></td>
+            <td rowspan="3" style="text-align: center;writing-mode: vertical-rl;transform: rotate(180deg);"><%if(o.adminSEEN === "1"){%> <h3>NEW!</h3> <%}%><br><%=String(o.date).substring(8,10)%>-<%=o.date.getMonth()%>-<%=String(o.date).substring(11,15)   %></td>
             <td class="ordersTableTd"  <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen2%>;" <%} else { %> style="background-color: <%=unseen2%>;"<% }%> >
                 <input hidden type="text" name="orderID" value="<%=o._id%>" class="OMinput" >
                 <input type="text" name="userNAME" value="<%=o.userNAME%>" class="OMinput" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>
@@ -30,7 +30,7 @@ var seen2 ="#ff000047"
                 <input type="text" name="userADDRESS" value="<%=o.userADDRESS%>" class="OMinput" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>
                 <div style="display: inline-flex;"><span style="font-weight:bold">£</span><strong></strong><input type="text" name="userTOTAL" value="<%=o.userTOTAL%>" class="OMinput3"<%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>></div> 
             <td <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen2%>;" <%} else { %> style="background-color: <%=unseen2%>;"<% }%>>
-                <%if(o.adminSEEN === "1"){%> <h3>NEW!</h3> <%}%>
+                
                 <input type="submit" value="Delete" class="actionButton btn btn-primary" formaction="/orders_manager_delete"><br>
             </td>
             </tr> 

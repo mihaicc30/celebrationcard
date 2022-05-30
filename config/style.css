@@ -273,8 +273,8 @@ border: 1px solid #00000080;
 box-shadow: -1px 6px 3px 0 rgba(0, 0, 0, 0.6);
 }
 
-.card.is-flipped .front,
-.card.is-flipped .back{
+.cardz.is-flipped .front,
+.cardz.is-flipped .back{
 transform: rotateY(-180deg) translateX(0em);
 border: 1px solid #00000080;
 }

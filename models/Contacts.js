@@ -13,6 +13,10 @@ const ContactsSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  adminSEEN: {
+    type: String,
+    default: "1"
+  },
   date: {
     type: Date,
     default: Date.now

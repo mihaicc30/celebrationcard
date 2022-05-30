@@ -15,7 +15,39 @@ var db = process.env.mongoURI;
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
 
+// orders_manager_delete page
+router.post('/messages_delete', (req, res) => {//, ensureAuthenticated
+  if (req.path.includes("delete")) {
+    var queryz = Contacts.deleteOne({ _id: req.body.orderID }).exec()
+    res.redirect('messages')
+  }
+})
+// orders_manager_markseen page
+router.post('/messages_markseen', (req, res) => {//, ensureAuthenticated
+  if (req.path.includes("markseen")) {
+    var queryz = Contacts.updateOne({ _id: req.body.orderID },{$set:{adminSEEN:"2"}}).exec()
+    res.redirect('messages')
+  }
+})
 
+// orders_manager_markseen page
+router.post('/messages_markunseen', (req, res) => {//, ensureAuthenticated
+  if (req.path.includes("markunseen")) {
+    var queryz = Contacts.updateOne({ _id: req.body.orderID },{$set:{adminSEEN:"1"}}).exec()
+    res.redirect('messages')
+  }
+})
+
+// orders_manager_update page
+router.post('/messages_update', (req, res) => {//, ensureAuthenticated
+
+  var queryz = Contacts.findByIdAndUpdate({ _id:req.body.orderID },{$set:{
+    "name":req.body.name,"email":req.body.email,"message":req.body.textarea
+        }}).sort({ date: -1 })
+  queryz.exec()
+    res.redirect('messages')
+
+})
 
 // admin messages page
 router.get('/messages', (req, res) => {//, ensureAuthenticated
