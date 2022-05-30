@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const Baskets = require('../models/Baskets');
 const Products = require('../models/Products');
+const Contacts = require('../models/Contacts');
 const Orders = require('../models/Orders');
 const User = require('../models/User');
 
@@ -12,6 +13,22 @@ const dotenv = require('dotenv');
 dotenv.config();
 var db = process.env.mongoURI;
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
+
+
+
+
+// admin messages page
+router.get('/messages', (req, res) => {//, ensureAuthenticated
+  var queryz = Contacts.find().sort({ date: -1 })
+  queryz.exec(function (err, results) {
+    if (err) return handleError(err);
+    res.render('messages', {
+      user: req.user,
+      messages:results
+    })
+  })
+})
+
 
 
 // products sorting page
@@ -354,39 +371,19 @@ router.get('/contact', (req, res) => //, ensureAuthenticated
     user: req.user
   })
 );
-// // products page
-// router.get('/products', ensureAuthenticated, (req, res) =>
-//   mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-//     if (err) { console.log(err) } else {
-//       db.collection("products").find().sort({ "price": 1 }).toArray(function (err, result) {
-//         if (err) { console.log(err) } else {
-//           res.render('products', {
-//             user: req.user,
-//             products: result
-//           })
-//         }
-//       })
-//     }
-//   }))
 
 // Contact post page
-router.post('/contact', (req, res) =>
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    var { name, email, message } = req.body;
-    if (err) { console.log(err) } else {
-      db.collection("contacts").insertOne({
-        "name": name,
-        "email": email,
-        "message": message
-      });
-      res.render('contact', {
-        user: req.user,
-        success_msg: "Your message has been successfully sent! Thank you!"
-      })
-
-    }
-  }))
-
+router.post('/contact', (req, res) => { 
+  var { name, email, message } = req.body;
+  var queryz = new Contacts({ "name": name, "email": email, "message": message });
+  queryz.save(function (err, results) {
+    if (err) return handleError(err);
+  res.render('contact', {
+    user: req.user,
+    success_msg: "Your message has been successfully sent! Thank you!"
+    })
+  })
+})
 
 // product manager page
 router.get('/product_manager', (req, res) => {//, ensureAuthenticated

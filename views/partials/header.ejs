@@ -10,13 +10,14 @@
         <div style="padding: 3em 12em 6em 2em;"></div>
     </div>
     <div class="navCenter ">
-        <a href="/dashboard" class="btn btn-secondary btn-block">Home</a>
 
         <% if(typeof user!="object" ) { %>
             <a href="/users/register" class="btn btn-primary btn-block mb-2">Register</a>
             <a href="/users/login" class="btn btn-secondary btn-block">Login</a>
         <% } %>
         <% if (typeof user=="object" && user._id == "6291085b97cb8135d0aff59c" ) { %>
+            <a href="/messages" class="btn btn-secondary btn-block mb-2" id="logout"
+                style="white-space: nowrap">Messages</a>
             <a href="/product_manager" class="btn btn-secondary btn-block mb-2" id="logout"
                 style="white-space: nowrap">Product Manager</a>
             <a href="/orders_manager" class="btn btn-secondary btn-block mb-2" id="logout"
@@ -24,6 +25,7 @@
         <% } %>
 
         <% if (typeof user=="object" && user._id != "6291085b97cb8135d0aff59c" ) { %>
+            <a href="/dashboard" class="btn btn-secondary btn-block">Home</a>
             <a href="/products" class="btn btn-secondary btn-block">Products</a>
             <a href="/myprofile" class="btn btn-secondary btn-block">MyProfile</a>
         <% } %>

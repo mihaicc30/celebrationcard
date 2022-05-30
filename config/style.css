@@ -271,6 +271,7 @@ height: 350px;
 width: auto;
 margin-left: 20px;
 border: 1px solid #00000080;
+box-shadow: -1px 6px 3px 0 rgba(0, 0, 0, 0.6);
 }
 
 .card.is-flipped .front,
@@ -361,34 +362,6 @@ left: 0;
 transform: rotate(45deg);
 transform-origin: 100% 100%;
 }
-
-/* general styling */
-/* html, body {
-height: 100%;
-margin: 0;
-} */
-
-/* body {
-align-items: center;
-background-color: #eee;
-display: flex;
-}
-.container {
-margin: 0 auto;
-}
-.justify {
-text-align: justify;
-}
-.text-right{
-text-align: right;
-} */
-
-
-
-
-
-
-
 
 @media (max-width: 800px) {
     #btfimg {

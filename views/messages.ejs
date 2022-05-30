@@ -1,0 +1,12 @@
+<%- include('./partials/header') %>
+
+<%- include ('./partials/messages') %>
+
+
+
+<div class="d-flex flex-column">
+  <% messages.forEach(mess => { %>
+    <td><%=mess.message%></td>
+   <% }); %>
+    
+</div>
