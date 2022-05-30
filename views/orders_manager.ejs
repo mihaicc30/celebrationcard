@@ -36,7 +36,7 @@ var seen2 ="#ff000047"
             </tr> 
 <tr>   
     <td class="ordersTableTd text-center" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen2%>;" <%} else { %> style="background-color: <%=unseen2%>;"<% }%>>
-        <% o.userORDER['results'].forEach(ord => { %>
+        <% o.userORDER.forEach(ord => { %>
         <div>
             <input readonly <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%> type="text" name="qty" value="<%=ord.qty%>" class="OMinputqt" ><span <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>x</span>
             <input readonly type="text" name="productName" value="<%=ord.productName%>" class="OMinput" <%if(o.adminSEEN === "1") {%> style="background-color: <%=seen%>;" <%} else { %> style="background-color: <%=unseen%>;"<% }%>>

@@ -1,7 +1,7 @@
 <%- include('./partials/header') %>
 
 <%- include ('./partials/messages') %>
-<div class="contactForm card text-center d-flex flex-column">
+<div class=" card text-center d-flex flex-column align-items-center">
     <div class="d-flex flex-column align-items-center">
         <h2>My Profile</h2>
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -9,41 +9,84 @@
             <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
         </svg>
     </div>
+    <div class="tablediv d-flex justify-content-center "  <%if(typeof orders2 === 'undefined') {%>style="display: none !important;" <%}%> ><% counter=0 %>
+    <table class="orderHistory">
+        <tr style="font-weight: bolder;">
+            <td>Order Date</td>
+            <td>Products</td>
+            <td>Status</td>
+        </tr>
+        <tr>
+            <% if(typeof orders2 != 'undefined') {%> 
+            <% orders2.forEach(o2 => { %>
+                <td style="padding: 10px;"><%=String(o2.date).substring(3,15) %></td>
+                <td style="text-align: left;list-style: none;padding: 10px; max-width: 300px;">
+                    <% o2.userORDER.forEach(o3 => { %>
+                        <li><%=o3["qty"]%> x <%=o3["productName"]%></li>
+                    <% }); %>
+                </td>
+                <td style="padding: 10px;"><%if(o2.adminSEEN==="1") {%>processing ...<%} else {%> sent! <%}%> </td>
+        </tr>
+           <% counter++ }); %>
+           <%}%>
+    </table>
+    </div>
     <form method="post" autocomplete="off"><br><br>	
-        <input type="userid" name="userid" placeholder="userid"  value="<%=profile._id%>" hidden><br>
+        <input type="userid" name="userid" placeholder="userid"  value="<%=user._id%>" hidden><br>
         <div class="userProfile d-flex flex-column">
         
             <label for="name">Name</label>
-            <input type="text" name="name" placeholder="name"  value="<%=profile.name%>" <% if(user._id == "6291085b97cb8135d0aff59c"){%>readonly<%}%> >
+            <input type="text" name="name" placeholder="name"  value="<%=user.name%>"  >
         
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="email" value="<%=profile.email%>"  <% if(user._id == "6291085b97cb8135d0aff59c"){%>readonly<%}%>>
+            <input type="email" name="email" placeholder="email" value="<%=user.email%>" >
         
-        <% if(profile.name == "GymShop Admin"){%> <h2>Admin account is not editable! :) </h2> <%}%>
+        <% if(user._id === "6291085b97cb8135d0aff59c"){%> <h2>Admin account is not editable! :) </h2> <%}%>
         
-            <label for="password" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Password</label>
-            <input type="password" name="password" placeholder="password" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
+            <label for="password" >Password</label>
+            <input type="password" name="password" placeholder="password" autocomplete="off" ><br><br>
        
-
+            <h6 <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%> >Delivery address</h6>
             <label for="address1" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Address Line 1</label>
-            <input type="text" value="<%=profile.address1%>" name="address1" placeholder="Address Line 1" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+            <input type="text" value="<%=user.address1%>" name="address1" placeholder="Address Line 1" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
         
             <label for="address2" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Address Line 2</label>
-            <input type="text" value="<%=profile.address2%>" name="address2" placeholder="Address Line 2" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+            <input type="text" value="<%=user.address2%>" name="address2" placeholder="Address Line 2" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
        
             <label for="city" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>City</label>
-            <input type="text" value="<%=profile.city%>" name="city" placeholder="City" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+            <input type="text" value="<%=user.city%>" name="city" placeholder="City" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
         
             <label for="postcode" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Postcode</label>
-            <input type="text" value="<%=profile.postcode%>" name="postcode" placeholder="Postcode" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+            <input type="text" value="<%=user.postcode%>" name="postcode" placeholder="Postcode" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
       
             <label for="country" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Country</label>
-            <input type="text" name="country" placeholder="Country" autocomplete="off" value="United Kingdom"  readonly<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
+            <input type="text" name="country" placeholder="Country" autocomplete="off" value="United Kingdom"  readonly <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
       
 
-        <input type="submit" value="Update" class="btn btn-info" formaction="myprofile_update"<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br>
-        <input type="submit" value="Delete Account" class="btn btn-danger" formaction="myprofile_delete"<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br><br><br><br><br>
+        <input type="submit" value="Update" class="btn btn-info" formaction="myprofile_update"><br>
+        
+        <input type="button" id="delbtn" value="Delete Account" class="btn btn-danger" onclick="exp()" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+        <input type="submit" id="delbtn3" value="Real Delete Account Button" class="btn btn-primary" formaction="myprofile_delete"<% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%> style="display:none">
+        <div id="delbtn4" style="display: none;">
+            <br><p>If this was an accident, dont worry. </p>
+        <p>If you ment to do this, please confirm</p>
+        <p>couple more times to proceed.</p></div>
     </div>
     </form>
-
+    
+    <br><br><br><br><br><br>
 </div>
+<script>
+var clicks = 0
+function exp(){
+    document.getElementById('delbtn4').style.display='block'
+
+    clicks++
+    if (clicks>3){
+        document.getElementById('delbtn').style.display='none'
+        document.getElementById('delbtn3').style.display='block'
+    } else {
+        document.getElementById('delbtn').style.transform=`scale(1.${clicks})`
+    }
+}
+</script>

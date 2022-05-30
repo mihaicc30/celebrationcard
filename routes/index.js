@@ -88,7 +88,7 @@ router.get('/products', ensureAuthenticated, (req, res) => {
       })
       break;
     default:
-      var queryz = Products.find()
+      var queryz = Products.find().limit(10)
       queryz.exec(function (err, results) {
         if (err) return handleError(err);
         res.render('products', {
@@ -96,6 +96,7 @@ router.get('/products', ensureAuthenticated, (req, res) => {
           products: results
         })
       })
+      // to implement a next page button :C
   }
 })
 
@@ -183,7 +184,9 @@ router.get('/complete', ensureAuthenticated, (req, res) => {
             }
           });
         })
-        var queryz3 = new Orders({ userTOTAL: total, userID: req.user._id, userNAME: req.user.name, userEMAIL: req.user.email, userADDRESS: req.user.address1 + "," + req.user.address2 + "," + req.user.city + "," + req.user.postcode, userORDER: { results } })
+        var queryz3 = new Orders({ userTOTAL: total.toFixed(2), userID: req.user._id, userNAME: req.user.name, userEMAIL: req.user.email, userADDRESS: req.user.address1 + "," + req.user.address2 + "," + req.user.city + "," + req.user.postcode,
+         userORDER: results  })
+
         queryz3.save(function (err, results3) {
           if (err) return console.log(err);
 
@@ -477,20 +480,27 @@ router.post('/product_manager3', (req, res) => { //, ensureAuthenticated
 
 
 // my profile page get
-router.get('/myprofile', ensureAuthenticated, (req, res) => //, ensureAuthenticated
-  mongoose.createConnection(db, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
-    if (err) { console.log(err) } else {
-      db.collection("users").find({ "email": req.user.email }).toArray(function (err, result) {
-        if (err) { console.log(err) } else {
-          res.render('myprofile', {
-            user: req.user,
-            profile: result[0]
-          })
-        }
-
-      })
-    }
-  }).close)
+router.get('/myprofile', ensureAuthenticated, (req, res) =>{ //, ensureAuthenticated
+  var queryz = Orders.find({ userID: req.user._id }).sort({ date:-1})
+  queryz.exec(function (err, results) {
+    if (err) return handleError(err);
+    var queryz2 = User.find({ _id: req.user._id })
+    queryz2.exec(function (err, results2) {
+    if (err) return handleError(err);
+      if(results.length> 1){ 
+        res.render('myprofile', {
+          user: req.user,
+          profile: results2[0],
+          orders: results[0]['userORDER'],
+          orders2: results
+        })
+      } else {
+        res.render('myprofile', {
+          user: req.user,})
+      }
+    
+  })
+}) })
 // myprofile_update page post
 router.post('/myprofile_update', ensureAuthenticated, (req, res) => {
   var { userid, name, email, password, address1, address2, city, postcode } = req.body;
@@ -515,10 +525,7 @@ router.post('/myprofile_update', ensureAuthenticated, (req, res) => {
         try {
           queryz2.exec(function (err, results) {
             if (err) return handleError(err);
-            res.render('myprofile', {
-              user: req.user,
-              profile: results[0]
-            })
+            res.redirect('myprofile')
           })
         } catch (err) {
           res.status(err.statusCode || 500).json(err.message);

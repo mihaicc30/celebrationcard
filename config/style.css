@@ -164,11 +164,21 @@
     background-color: rgb(255 255 255 / 79%);
     box-shadow: 2px 2px 0 11px hsl(41deg 100% 51% / 77%);
     transform: translate(125px,200px);
+    
 }
 .basketIMG{
     width: 100px;
     height: auto;
 }
+.tablediv{
+    height: 276px!important;
+    overflow: scroll;
+    width: fit-content;
+}
+.orderHistory tr, .orderHistory td {
+    border:  1px solid black;
+}
+
 .offerCards{
     height: auto;
     width: min(225px, 50vw);
@@ -190,6 +200,196 @@
 .cats >form> li {
     list-style: none;
 }
+.contactForm {
+    background-image: url('../pictures/contactbhg.jpg');
+    background-repeat: no-repeat;
+    max-width: min(90vw, 550px);
+    background-position: center;
+    opacity: 90%;
+    min-height: 50vh;
+    border-radius: 0 5% 5% 0;
+    margin: 2em auto 2em auto;
+    padding: 7vw;
+    
+    
+}
+#CTForm{
+    font-weight: bold;
+}
+/* .contactForm > form > input, .contactForm > form > textarea {
+    font-weight: bold;
+} */
+
+
+
+
+*{
+--highlight: #ff96ca;
+}
+
+.card,
+.envelope,
+.back,
+.front,
+.rear {
+background: #fff;
+box-shadow: -1px 6px 3px 0 rgba(0, 0, 0, 0.6);
+height: 21em;
+padding: 2em;
+position: relative;
+width: 15em;
+border: 1px solid #00000080;
+border-radius: 0 5% 5% 0;
+}
+
+.card {
+padding: 0;
+z-index: 1;
+perspective: 800px;
+border-radius: 5% 5% 5% 5%;
+}
+.front, .back{
+transform-style: preserve-3d;
+transform-origin: center left;
+transition: transform 1s;
+position: absolute;
+}
+.front-letters {
+padding: 0;
+}
+
+.front {
+z-index:1;
+backface-visibility: hidden;
+background-color: #ADD8E6;
+}
+.back{
+cursor: pointer;
+}
+.photo{
+height: 350px;
+width: auto;
+margin-left: 20px;
+border: 1px solid #00000080;
+}
+
+.card.is-flipped .front,
+.card.is-flipped .back{
+transform: rotateY(-180deg) translateX(0em);
+border: 1px solid #00000080;
+}
+#hz {
+font-family: 'Luckiest Guy', cursive;
+padding-top: 40px;
+font-size: 2em;
+font-weight: 400;
+margin: 0;
+text-transform: uppercase;
+text-shadow: 2px 2px black;
+color: white;
+letter-spacing: 0.1em;
+text-align: center;
+line-height: 1.4;
+}
+em {
+color: var(--highlight);
+font-style: normal;
+}
+
+.envelope {
+transform: translate(20px,5px)
+rotate(-8deg);
+background: #c72b50;
+box-shadow: 0 3px 2px rgba(0, 0, 0, 0.8);
+margin: -2em -2em;
+position: absolute;
+z-index: 3;
+display:flex;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+color: #fbdedf;
+transition: all 2s ease;
+}
+.envelope h2{
+transform: rotate(90deg);
+font-family: 'Luckiest Guy', cursive;
+}
+.envelope.gone{
+transform: translate(130%, 5px) rotate(8deg);
+}
+
+.rear {
+position: absolute;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 0;
+font-family: 'Luckiest Guy', cursive;
+}
+@keyframes pulse {
+0%   { transform: scale(1); }
+50% { transform: scale(1.2); }
+100% { transform: scale(1); }
+}
+.heart {
+transform-origin: center center;
+animation: pulse 1s infinite;
+cursor: pointer;
+bottom: 8em;
+position: absolute;
+right: 8em;
+box-shadow: 2px 2px black;
+backface-visibility: hidden;
+}
+
+.heart::before,
+.heart::after {
+background-color: var(--highlight);
+border-radius: 50px 50px 0 0;
+content: "";
+height: 25px;
+left: 15px;
+position: absolute;
+transform: rotate(-45deg);
+transform-origin: 0 100%;
+width: 15px;
+
+}
+.heart::after {
+left: 0;
+transform: rotate(45deg);
+transform-origin: 100% 100%;
+}
+
+/* general styling */
+/* html, body {
+height: 100%;
+margin: 0;
+} */
+
+/* body {
+align-items: center;
+background-color: #eee;
+display: flex;
+}
+.container {
+margin: 0 auto;
+}
+.justify {
+text-align: justify;
+}
+.text-right{
+text-align: right;
+} */
+
+
+
+
+
+
+
+
 @media (max-width: 800px) {
     #btfimg {
         height: 30vh;
