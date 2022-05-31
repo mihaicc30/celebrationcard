@@ -35,7 +35,7 @@
         <% if(typeof user=="object" ) { %>
             <a href="/users/logout" class="btn btn-secondary btn-block mb-2" id="logout">Logout</a>
         <% } %>
-        <% if(typeof user=="object"){%>
+        <% if(typeof user=="object" && user._id != "6291085b97cb8135d0aff59c"){%>
         <a href="/basket" class="btn btn-success btn-block mr-2" style="white-space:nowrap;">Basket</a>
         <%}%>
     </div>
