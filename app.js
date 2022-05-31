@@ -13,7 +13,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 var db = process.env.mongoURI;
 
-var conTrue;
 //MongoDB test connection
 mongoose.connect(db,{   
   useNewUrlParser: true,

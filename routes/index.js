@@ -184,7 +184,6 @@ router.get('/orders_manager', ensureAuthenticated, (req, res) => {//, ensureAuth
       orders: results
     })
   })
-
 })
 
 // orders_manager_delete page
