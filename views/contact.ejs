@@ -3,28 +3,30 @@
 <%- include ('./partials/messages') %>
 
 
-
 <div class="contactForm text-center d-flex flex-column">
-    <div class="container d-flex justify-content-center">
-        <div class="cardz">
-          <div class="front">
-            <h1 style="font-family: 'Great Vibes', cursive!important;    font-size: 4.5rem;">Contact Form</h1>
-            <div class="heart"></div>
-          </div>
-          <div class="back"><img class="photo"   src="../pictures/cf.JPG"/></div>
-          <div class="rear">
-            <div class="justify">
-             <form method="post" id="CTForm"><br><br><br><br><br>⭐
-                
-        <input type="text" name="name" id="" placeholder="name" <% if(user){%>value=<%=user.name%><%}%> style="width: 230px;"><br>
-        <input type="email" name="email" id="" placeholder="email"<% if(user){%>value=<%=user.email%><%}%> style="width: 230px;"><br>
-        <textarea type="text" name="message" id="" placeholder="message" rows="4" cols="25"></textarea><br><br>
-        <input type="submit" value="Submit"><br><br>
-    </form>
-            
+  <div class="container d-flex justify-content-center">
+    <div class="cardz">
+      <div class="front">
+        <h1 style="font-family: 'Great Vibes', cursive!important;    font-size: 4.5rem;">Contact Form</h1>
+        <div class="heart"></div>
+      </div>
+      <div class="back"><img class="photo" src="../pictures/cf.JPG" /></div>
+      <div class="rear">
+        <div class="justify">
+          <form method="post" id="CTForm"><br><br><br><br><br>⭐
+
+            <input type="text" name="name" id="" placeholder="name" <% if(user){%>value=<%=user.name%>
+              <%}%> style="width: 230px;"><br>
+                <input type="email" name="email" id="" placeholder="email" <% if(user){%>value=<%=user.email%>
+                  <%}%> style="width: 230px;"><br>
+                    <textarea type="text" name="message" id="" placeholder="message" rows="4"
+                      cols="25"></textarea><br><br>
+                    <input type="submit" value="Submit"><br><br>
+          </form>
+
         </div>
       </div>
-</div>
+    </div>
 
   <script>
 

@@ -65,88 +65,52 @@ router.get('/messages', (req, res) => {//, ensureAuthenticated
 
 // products sorting page
 router.get('/products', ensureAuthenticated, (req, res) => {
-  switch (req.query["sortingBy"]) {
-    case "Birthday":
-      var queryz = Products.find({ cat: "Birthday" })
+  var page = String(req.query["page"])
+
+  if (page === "0" || page === "1" || page === "undefined") { page = 0 }
+  if (page === "2") { page = 8 }
+  if (page > 2) { page = (req.query["page"] *= 8) - 8 }
+
+  var sorting = String(req.query["sortingBy"])
+
+  var cats = Products.distinct("cat")
+  cats.exec(function (err, catss) {
+    if (err) return handleError(err);
+    if (sorting !== "Clear Sorting" && sorting !== "undefined") {
+      var queryz = Products.find({ cat: sorting }).skip(page).limit(8)
       queryz.exec(function (err, results) {
         if (err) return handleError(err);
-        res.render('products', {
-          user: req.user,
-          products: results
+        var countquery = Products.find({ cat: sorting }).countDocuments().exec()
+        countquery.then(function (thecount) {
+          res.render('products', {
+            user: req.user,
+            products: results,
+            sorting: sorting,
+            page: page,
+            count: thecount,
+            cats: catss
+          })
         })
       })
-      break;
-    case "New Year":
-      var queryz = Products.find({ cat: "New Year" })
+    } else {
+      var queryz = Products.find().skip(page).limit(8)
       queryz.exec(function (err, results) {
         if (err) return handleError(err);
-        res.render('products', {
-          user: req.user,
-          products: results
+        var countquery = Products.countDocuments().exec()
+        countquery.then(function (thecount) {
+          res.render('products', {
+            user: req.user,
+            products: results,
+            sorting: sorting,
+            page: page,
+            count: thecount,
+            cats: catss
+          })
         })
       })
-      break;
-    case "Easter":
-      var queryz = Products.find({ cat: "Easter" })
-      queryz.exec(function (err, results) {
-        if (err) return handleError(err);
-        res.render('products', {
-          user: req.user,
-          products: results
-        })
-      })
-      break;
-    case "Christmas":
-      var queryz = Products.find({ cat: "Christmas" })
-      queryz.exec(function (err, results) {
-        if (err) return handleError(err);
-        res.render('products', {
-          user: req.user,
-          products: results
-        })
-      })
-      break;
-    case "For Her":
-      var queryz = Products.find({ cat: "For Her" })
-      queryz.exec(function (err, results) {
-        if (err) return handleError(err);
-        res.render('products', {
-          user: req.user,
-          products: results
-        })
-      })
-      break;
-    case "For Him":
-      var queryz = Products.find({ cat: "For Him" })
-      queryz.exec(function (err, results) {
-        if (err) return handleError(err);
-        res.render('products', {
-          user: req.user,
-          products: results
-        })
-      })
-      break;
-    case "Custom":
-      var queryz = Products.find({ cat: "Custom" })
-      queryz.exec(function (err, results) {
-        if (err) return handleError(err);
-        res.render('products', {
-          user: req.user,
-          products: results
-        })
-      })
-      break;
-    default:
-      var queryz = Products.find().limit(10)
-      queryz.exec(function (err, results) {
-        if (err) return handleError(err);
-        res.render('products', {
-          user: req.user,
-          products: results
-        })
-      })
-      // to implement a next page button :C
-  }
+    }
+  })
+  // to implement pagination :C // done lol
 })
 
 // product manager page
@@ -280,7 +244,7 @@ router.post('/add', ensureAuthenticated, function (req, res) {
     if (err) return console.error(err);
   })
   req.flash('success_msg', `${productName} x ${qty} is added to cart.`);
-  res.redirect('products');
+  res.redirect(req.headers.referer);
 });
 
 // products submit page
@@ -307,6 +271,7 @@ router.post('/products', ensureAuthenticated, async (req, res) => { //
       }
     })
   })
+
   promise1.then(async (value) => {
     try {
       const customerList = value.map((product, i) => {
@@ -457,9 +422,10 @@ router.post('/product_manager1', (req, res) => {//, ensureAuthenticated
 
 // post products manager page insert
 router.post('/product_manager2', (req, res) => {//, ensureAuthenticated
-  var { name, price, img } = req.body;
-
-  var queryz = Products.create({ "name": name, "price": price, "img": img })
+  var { name, price, img,cat } = req.body;
+  if(img.length < 4){img="https://cdn-fwsyt287.files-simplefileupload.com/static/blobs/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBZ3VzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--21f03256a1e314bfd43d2fff39628e40a81534ea/commingsoon.png"}
+  if(cat===""){cat="null"}
+  var queryz = Products.create({ "name": name, "price": price, "img": img, "cat":cat })
   var promise1 = new Promise((resolve, reject) => {
     queryz.then(function (err, results) {
       resolve(results)
