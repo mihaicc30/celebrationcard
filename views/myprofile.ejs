@@ -36,31 +36,31 @@
         <div class="userProfile d-flex flex-column">
         
             <label for="name">Name</label>
-            <input type="text" name="name" placeholder="name"  value="<%=user.name%>"  >
+            <input type="text" name="name" placeholder="name" id="name" value="<%=user.name%>"   onkeypress="checkBannedChars('name')" onkeyup="checkBannedChars('name')">
         
             <label for="email">Email</label>
-            <input type="email" name="email" placeholder="email" value="<%=user.email%>" >
+            <input type="email" name="email" placeholder="email" value="<%=user.email%>" id="email"  onkeypress="checkBannedChars('email')" onkeyup="checkBannedChars('email')" >
         
         <% if(user._id === "6291085b97cb8135d0aff59c"){%> <h2>Admin account is not editable! :) </h2> <%}%>
         
             <label for="password" >Password</label>
-            <input type="password" name="password" placeholder="password" autocomplete="off" ><br><br>
+            <input type="password" name="password" placeholder="password" autocomplete="off" id="password"  onkeypress="checkBannedChars('password')" onkeyup="checkBannedChars('password')" ><br><br>
        
             <h6 <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%> >Delivery address</h6>
             <label for="address1" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Address Line 1</label>
-            <input type="text" value="<%=user.address1%>" name="address1" placeholder="Address Line 1" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+            <input onkeypress="checkBannedChars('address1')" onkeyup="checkBannedChars('address1')" id="address1" type="text" value="<%=user.address1%>" name="address1" placeholder="Address Line 1" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
         
             <label for="address2" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Address Line 2</label>
-            <input type="text" value="<%=user.address2%>" name="address2" placeholder="Address Line 2" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+            <input onkeypress="checkBannedChars('address2')" onkeyup="checkBannedChars('address2')" id="address2" type="text" value="<%=user.address2%>" name="address2" placeholder="Address Line 2" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
        
             <label for="city" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>City</label>
-            <input type="text" value="<%=user.city%>" name="city" placeholder="City" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+            <input onkeypress="checkBannedChars('city')" onkeyup="checkBannedChars('city')" id="city" type="text" value="<%=user.city%>" name="city" placeholder="City" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
         
             <label for="postcode" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Postcode</label>
-            <input type="text" value="<%=user.postcode%>" name="postcode" placeholder="Postcode" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
+            <input onkeypress="checkBannedChars('postcode')" onkeyup="checkBannedChars('postcode')" id="postcode" type="text" value="<%=user.postcode%>" name="postcode" placeholder="Postcode" autocomplete="off" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>
       
             <label for="country" <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>>Country</label>
-            <input type="text" name="country" placeholder="Country" autocomplete="off" value="United Kingdom"  readonly <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
+            <input onkeypress="checkBannedChars('Country')" onkeyup="checkBannedChars('Country')" id="Country" type="text" name="country" placeholder="Country" autocomplete="off" value="United Kingdom"  readonly <% if(user._id == "6291085b97cb8135d0aff59c"){%>hidden<%}%>><br><br>
       
 
         <input type="submit" value="Update" class="btn btn-info" formaction="myprofile_update"><br>

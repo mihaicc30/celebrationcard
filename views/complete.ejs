@@ -127,7 +127,7 @@ var total = 0.00;
         
         <div>
             <textarea name="textarea" id="" cols="30" rows="10"></textarea></div>
-        <input type="text" name="orderIDD"  value="<%=orderID%>" hidden>
+        <input onkeypress="checkBannedChars('orderIDD')" onkeyup="checkBannedChars('orderIDD')" id="orderIDD" type="text" name="orderIDD"  value="<%=orderID%>" hidden>
         <input type="submit" name="Send!">
     </form>
 </div>

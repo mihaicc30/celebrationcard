@@ -15,13 +15,13 @@
         <div class="justify">
           <form method="post" id="CTForm"><br><br><br><br><br>⭐
 
-            <input type="text" name="name" id="" placeholder="name" <% if(user){%>value=<%=user.name%>
-              <%}%> style="width: 230px;"><br>
-                <input type="email" name="email" id="" placeholder="email" <% if(user){%>value=<%=user.email%>
-                  <%}%> style="width: 230px;"><br>
-                    <textarea type="text" name="message" id="" placeholder="message" rows="4"
-                      cols="25"></textarea><br><br>
-                    <input type="submit" value="Submit"><br><br>
+            <input onkeypress="checkBannedChars('name')" onkeyup="checkBannedChars('name')" type="text" name="name" id="name" placeholder="name" <% if(user){%>value=<%=user.name%> 
+              <%}%> style="width: 230px;" required ><br>
+            <input onkeypress="checkBannedChars('email')" onkeyup="checkBannedChars('email')" type="email" name="email" id="email" placeholder="email" <% if(user){%>value=<%=user.email%> 
+                  <%}%> style="width: 230px;" required><br>
+            <textarea onkeypress="checkBannedChars('message')" onkeyup="checkBannedChars('message')" type="text" name="message" id="message" placeholder="message" rows="4" 
+                      cols="25" required></textarea><br><br>
+            <input type="submit" value="Submit"><br><br>
           </form>
 
         </div>

@@ -25,8 +25,8 @@
   <title>CelebrationCard</title>
 </head>
 
-<!-- <body  oncontextmenu="return false;"> -->
-<body>
+<body  oncontextmenu="return false;">
+
   <div class="container">
     <%- body %>
   </div>
@@ -43,6 +43,18 @@
 </body>
 
 </html>
-<!-- <script>
+<script>
   document.addEventListener('contextmenu', event => event.preventDefault());
-</script> -->
+</script>
+<script>
+  function checkBannedChars(param) {
+      const banned_Chars = ['<', '>', '-', '{', '}', '[', ']', '(', ')', 'script', 'prompt', 'alert', 'write', 'send', '?', '!', '$', '#','\`','\"','\'','\;','\\','\/'];
+      var textvalue = document.getElementById(param).value;
+      for (var i = 0; i < banned_Chars.length; i++) {
+          if (~textvalue.indexOf(banned_Chars[i])) {
+              document.getElementById(param).value = String(textvalue).replace(banned_Chars[i], "");
+              checkBannedChars(param) // :)
+          }
+      }
+  }
+</script>

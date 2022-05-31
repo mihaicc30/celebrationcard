@@ -9,7 +9,7 @@ var unseen2 = "aliceblue"
 var seen ="#ff000000"
 var seen2 ="#ff000047"
 %> 
-
+<%if(typeof user == "object" && String(user._id) === "6291085b97cb8135d0aff59c") {%>
 <div style="display: flex; justify-content: center; margin-top: 3em;">
 
 
@@ -60,3 +60,8 @@ var seen2 ="#ff000047"
 </form> <%counter++ } ) %>
 </table>
 </div>
+<%} else {%>
+<script>
+window.location.href = window.location.origin
+</script>
+<%}%>

@@ -6,7 +6,7 @@
 var unseen = "#ff000033"
 var seen ="aliceblue"
 %> 
-
+<%if(typeof user == "object" && String(user._id) === "6291085b97cb8135d0aff59c") {%>
 <div class="d-flex flex-column align-items-center">
 <table class="mb-5 card card-body" border="1px solid black">
     
@@ -32,3 +32,8 @@ var seen ="aliceblue"
 </table>
     
 </div>
+<%} else {%>
+<script>
+window.location.href = window.location.origin
+</script>
+<%}%>

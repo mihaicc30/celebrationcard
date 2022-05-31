@@ -14,16 +14,56 @@ dotenv.config();
 var db = process.env.mongoURI;
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY)
 
+const banned_Chars = ['<', '>', '-', '{', '}', '[', ']', '(', ')', 'script','<script>','</script>', 'prompt', 'alert', 'write', 'send', '?', '!', '$', '#','\`','\"','\'','\;','\\','\/'];
+
+// Contact page
+router.get('/contact', (req, res) => //, ensureAuthenticated
+  res.render('contact', {
+    user: req.user
+  })
+);
+
+// Contact post page
+router.post('/contact', (req, res) => { 
+  var { name, email, message } = req.body;
+
+
+  for (var i = 0; i < banned_Chars.length; i++) {
+    if(email.includes(banned_Chars[i])){
+      email= email.replace(`script`,"").replace(`alert`,"").replace(`'`,"").replace(`\\`,"").replace(`\[`,"").replace(`<`,"").replace(`>`,"").replace(`-`,"").replace(`_`,"").replace(`{`,"").replace(`}`,"").replace(`[`,"").replace(`]`,"").replace(`(`,"").replace(`)`,"").replace(`prompt`,"").replace(`alert`,"").replace(`write`,"").replace(`send`,"").replace(`$`,"").replace(`!`,"").replace(`#`,"").replace(`\'`,"").replace(`\"`,"").replace(`\;`,"").replace(`\\`,"").replace(`\/`,"").replace(`<script>`,"").replace(`</script>`,"").replace(`\;`,"").replace(`\\`,"").replace(`\``,"").replace(`\'`,"").replace(`\"`,"").replace(`\;`,"").replace(`\\`,"")
+      }
+  }
+  for (var i = 0; i < banned_Chars.length; i++) {
+    if(name.includes(banned_Chars[i])){
+      name= name.replace(`script`,"").replace(`alert`,"").replace(`'`,"").replace(`\\`,"").replace(`\[`,"").replace(`<`,"").replace(`>`,"").replace(`-`,"").replace(`_`,"").replace(`{`,"").replace(`}`,"").replace(`[`,"").replace(`]`,"").replace(`(`,"").replace(`)`,"").replace(`prompt`,"").replace(`alert`,"").replace(`write`,"").replace(`send`,"").replace(`$`,"").replace(`!`,"").replace(`#`,"").replace(`\'`,"").replace(`\"`,"").replace(`\;`,"").replace(`\\`,"").replace(`\/`,"").replace(`<script>`,"").replace(`</script>`,"").replace(`\;`,"").replace(`\\`,"").replace(`\``,"").replace(`\'`,"").replace(`\"`,"").replace(`\;`,"").replace(`\\`,"")
+      }
+  }
+  for (var i = 0; i < banned_Chars.length; i++) {
+    if(message.includes(banned_Chars[i])){
+        message= message.replace(`script`,"").replace(`alert`,"").replace(`'`,"").replace(`\\`,"").replace(`\[`,"").replace(`<`,"").replace(`>`,"").replace(`-`,"").replace(`_`,"").replace(`{`,"").replace(`}`,"").replace(`[`,"").replace(`]`,"").replace(`(`,"").replace(`)`,"").replace(`prompt`,"").replace(`alert`,"").replace(`write`,"").replace(`send`,"").replace(`$`,"").replace(`!`,"").replace(`#`,"").replace(`\'`,"").replace(`\"`,"").replace(`\;`,"").replace(`\\`,"").replace(`\/`,"").replace(`<script>`,"").replace(`</script>`,"").replace(`\;`,"").replace(`\\`,"").replace(`\``,"").replace(`\'`,"").replace(`\"`,"").replace(`\;`,"").replace(`\\`,"")
+      }
+  }
+
+
+  var queryz = new Contacts({ "name": name, "email": email, "message": message });
+  queryz.save(function (err, results) {
+    if (err) return handleError(err);
+  res.render('contact', {
+    user: req.user,
+    success_msg: "Your message has been successfully sent! Thank you!"
+    })
+  })
+})
 
 // orders_manager_delete page
-router.post('/messages_delete', (req, res) => {//, ensureAuthenticated
+router.post('/messages_delete', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   if (req.path.includes("delete")) {
     var queryz = Contacts.deleteOne({ _id: req.body.orderID }).exec()
     res.redirect('messages')
   }
 })
 // orders_manager_markseen page
-router.post('/messages_markseen', (req, res) => {//, ensureAuthenticated
+router.post('/messages_markseen', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   if (req.path.includes("markseen")) {
     var queryz = Contacts.updateOne({ _id: req.body.orderID },{$set:{adminSEEN:"2"}}).exec()
     res.redirect('messages')
@@ -31,7 +71,7 @@ router.post('/messages_markseen', (req, res) => {//, ensureAuthenticated
 })
 
 // orders_manager_markseen page
-router.post('/messages_markunseen', (req, res) => {//, ensureAuthenticated
+router.post('/messages_markunseen', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   if (req.path.includes("markunseen")) {
     var queryz = Contacts.updateOne({ _id: req.body.orderID },{$set:{adminSEEN:"1"}}).exec()
     res.redirect('messages')
@@ -39,7 +79,7 @@ router.post('/messages_markunseen', (req, res) => {//, ensureAuthenticated
 })
 
 // orders_manager_update page
-router.post('/messages_update', (req, res) => {//, ensureAuthenticated
+router.post('/messages_update', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
 
   var queryz = Contacts.findByIdAndUpdate({ _id:req.body.orderID },{$set:{
     "name":req.body.name,"email":req.body.email,"message":req.body.textarea
@@ -50,7 +90,7 @@ router.post('/messages_update', (req, res) => {//, ensureAuthenticated
 })
 
 // admin messages page
-router.get('/messages', (req, res) => {//, ensureAuthenticated
+router.get('/messages', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   var queryz = Contacts.find().sort({ date: -1 })
   queryz.exec(function (err, results) {
     if (err) return handleError(err);
@@ -114,8 +154,17 @@ router.get('/products', ensureAuthenticated, (req, res) => {
 })
 
 // product manager page
-router.post('/extraMessage', (req, res) => {//, ensureAuthenticated
-  var queryz = Orders.updateOne({ _id: req.body.orderIDD },{$set:{ userMESSAGE: req.body.textarea }})
+router.post('/extraMessage', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
+
+  var { textarea } = req.body;
+
+  for (var i = 0; i < banned_Chars.length; i++) {
+    if(textarea.includes(banned_Chars[i])){
+      textarea= textarea.replace(`script`,"").replace(`alert`,"").replace(`'`,"").replace(`\\`,"").replace(`\[`,"").replace(`<`,"").replace(`>`,"").replace(`-`,"").replace(`_`,"").replace(`{`,"").replace(`}`,"").replace(`[`,"").replace(`]`,"").replace(`(`,"").replace(`)`,"").replace(`prompt`,"").replace(`alert`,"").replace(`write`,"").replace(`send`,"").replace(`$`,"").replace(`!`,"").replace(`#`,"").replace(`\'`,"").replace(`\"`,"").replace(`\;`,"").replace(`\\`,"").replace(`\/`,"").replace(`<script>`,"").replace(`</script>`,"").replace(`\;`,"").replace(`\\`,"").replace(`\``,"").replace(`\'`,"").replace(`\"`,"").replace(`\;`,"").replace(`\\`,"")
+      }
+  }
+
+  var queryz = Orders.updateOne({ _id: req.body.orderIDD },{$set:{ userMESSAGE: textarea }})
   queryz.exec(function (err, results) {
     if (err) return handleError(err);
     res.render('dashboard', {
@@ -126,7 +175,7 @@ router.post('/extraMessage', (req, res) => {//, ensureAuthenticated
 })
 
 // products page
-router.get('/orders_manager', (req, res) => {//, ensureAuthenticated
+router.get('/orders_manager', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   var queryz = Orders.find().sort({ date: -1 })
   queryz.exec(function (err, results) {
     if (err) return handleError(err);
@@ -139,7 +188,7 @@ router.get('/orders_manager', (req, res) => {//, ensureAuthenticated
 })
 
 // orders_manager_delete page
-router.post('/orders_manager_delete', (req, res) => {//, ensureAuthenticated
+router.post('/orders_manager_delete', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   var { orderID } = req.body
   if (req.path.includes("delete")) {
     var queryz = Orders.deleteOne({ _id: req.body.orderID }).exec()
@@ -147,7 +196,7 @@ router.post('/orders_manager_delete', (req, res) => {//, ensureAuthenticated
   }
 })
 // orders_manager_markseen page
-router.post('/orders_manager_markseen', (req, res) => {//, ensureAuthenticated
+router.post('/orders_manager_markseen', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   var { orderID } = req.body
   if (req.path.includes("markseen")) {
     var queryz = Orders.updateOne({ _id: req.body.orderID },{$set:{adminSEEN:"2"}}).exec()
@@ -156,7 +205,7 @@ router.post('/orders_manager_markseen', (req, res) => {//, ensureAuthenticated
 })
 
 // orders_manager_markseen page
-router.post('/orders_manager_markunseen', (req, res) => {//, ensureAuthenticated
+router.post('/orders_manager_markunseen', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   var { orderID } = req.body
   if (req.path.includes("markunseen")) {
     var queryz = Orders.updateOne({ _id: req.body.orderID },{$set:{adminSEEN:"1"}}).exec()
@@ -165,7 +214,7 @@ router.post('/orders_manager_markunseen', (req, res) => {//, ensureAuthenticated
 })
 
 // orders_manager_update page
-router.post('/orders_manager_update', (req, res) => {//, ensureAuthenticated
+router.post('/orders_manager_update', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
 
   var queryz = Orders.findByIdAndUpdate({ _id:req.body.orderID },{$set:{
         userTOTAL:req.body.userTOTAL, userNAME:req.body.userNAME, userEMAIL:req.body.userEMAIL,userADDRESS:req.body.userADDRESS,userMESSAGE:req.body.userMESSAGE,adminSEEN:req.body.adminSEEN
@@ -362,28 +411,10 @@ router.get('/dashboard', (req, res) => {
 
 });
 
-// Contact page
-router.get('/contact', (req, res) => //, ensureAuthenticated
-  res.render('contact', {
-    user: req.user
-  })
-);
 
-// Contact post page
-router.post('/contact', (req, res) => { 
-  var { name, email, message } = req.body;
-  var queryz = new Contacts({ "name": name, "email": email, "message": message });
-  queryz.save(function (err, results) {
-    if (err) return handleError(err);
-  res.render('contact', {
-    user: req.user,
-    success_msg: "Your message has been successfully sent! Thank you!"
-    })
-  })
-})
 
 // product manager page
-router.get('/product_manager', (req, res) => {//, ensureAuthenticated
+router.get('/product_manager', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   var queryz = Products.find().sort({ name: 1 })
   queryz.exec(function (err, results) {
     if (err) return handleError(err);
@@ -395,7 +426,7 @@ router.get('/product_manager', (req, res) => {//, ensureAuthenticated
 })
 
 // post products manager page update
-router.post('/product_manager1', (req, res) => {//, ensureAuthenticated
+router.post('/product_manager1', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   var { product_id, name, price, img, cat } = req.body;
   var queryz = Products.updateOne({ _id: product_id }, { $set: { "name": name, "price": price, "img":img, "cat":cat } })
   var promise1 = new Promise((resolve, reject) => {
@@ -421,7 +452,7 @@ router.post('/product_manager1', (req, res) => {//, ensureAuthenticated
 })
 
 // post products manager page insert
-router.post('/product_manager2', (req, res) => {//, ensureAuthenticated
+router.post('/product_manager2', ensureAuthenticated, (req, res) => {//, ensureAuthenticated
   var { name, price, img,cat } = req.body;
   if(img.length < 4){img="https://cdn-fwsyt287.files-simplefileupload.com/static/blobs/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBZ3VzIiwiZXhwIjpudWxsLCJwdXIiOiJibG9iX2lkIn19--21f03256a1e314bfd43d2fff39628e40a81534ea/commingsoon.png"}
   if(cat===""){cat="null"}
@@ -448,7 +479,7 @@ router.post('/product_manager2', (req, res) => {//, ensureAuthenticated
 })
 
 // post products manager page delete
-router.post('/product_manager3', (req, res) => { //, ensureAuthenticated
+router.post('/product_manager3', ensureAuthenticated, (req, res) => { //, ensureAuthenticated
 
   var { product_id } = req.body
   var queryz = Products.deleteOne({ _id: product_id })
