@@ -104,7 +104,7 @@ router.get('/messages', ensureAuthenticated, (req, res) => {//, ensureAuthentica
 
 
 // products sorting page
-router.get('/products', ensureAuthenticated, (req, res) => {
+router.get('/products', (req, res) => {
   var page = String(req.query["page"])
 
   if (page === "0" || page === "1" || page === "undefined") { page = 0 }

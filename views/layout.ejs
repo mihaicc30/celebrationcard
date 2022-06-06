@@ -1,7 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html >
+<html lang="en" oncontextmenu="return false;">
 
-<head>
+<head oncontextmenu="return false;">
   <meta name="description" content="Celebration cards for everyone!">
   <meta name="keywords" content="celebration, card, gift, happy, new year, birthday, for him, for her">
   <meta property="og:image" content="../pictures/1.jpg" />
@@ -25,7 +25,7 @@
   <title>CelebrationCard</title>
 </head>
 
-<body  oncontextmenu="return false;">
+<body oncontextmenu="return false;">
 
   <div class="container">
     <%- body %>
@@ -47,6 +47,12 @@
   document.addEventListener('contextmenu', event => event.preventDefault());
 </script>
 <script>
+  document.oncontextmenu = function (e) {
+     e.preventDefault();
+     return false; 
+}
+</script>
+<script>
   function checkBannedChars(param) {
       const banned_Chars = ['<', '>', '-', '{', '}', '[', ']', '(', ')', 'script', 'prompt', 'alert', 'write', 'send', '?', '!', '$', '#','\`','\"','\'','\;','\\','\/'];
       var textvalue = document.getElementById(param).value;
@@ -57,4 +63,11 @@
           }
       }
   }
+</script>
+<script>
+  $(document). bind("contextmenu",function(e){ return false; });
+  document.oncontextmenu = function (e) {
+     e.preventDefault();
+     return false; 
+}
 </script>
