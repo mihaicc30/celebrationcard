@@ -17,7 +17,8 @@
     justify-content: space-around;
     background-color: aliceblue;
     border-radius: 15px!important;
-    align-items: center
+    align-items: center;
+    height: 100px;
 }
 .navCenter{
     display: flex;
@@ -26,9 +27,12 @@
 }
 .navLeft {
     cursor: pointer;
+    display: flex;
+    transition: .5s ease;
 }
 .navLeft:hover {
-    transform: scale(1.4);
+    transform: scale(1.05);
+    transition: .5s ease;
 }
 .welcomeModal {
     display: flex;
