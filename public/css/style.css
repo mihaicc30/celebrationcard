@@ -444,7 +444,6 @@ footer>div {
 /* CONTACT */
 
 .contactForm {
-    background-image: url('../pictures/contactbhg.jpg');
     background-repeat: no-repeat;
     max-width: min(90vw, 550px);
     background-position: center;
