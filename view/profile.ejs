@@ -1,0 +1,78 @@
+
+
+<div>
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+        aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+        </ol>
+    </nav>
+
+
+    <%if(typeof success_msg=="string" ){%>
+        <div class="alert alert-success  d-flex align-items-center fade show" role="alert">
+            <div class="mx-auto">
+                <p class="text-center">
+                    <%= success_msg %>
+                </p>
+            </div>
+            <button type="button" class="btn-close fade show" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        <%}%>
+
+            <form method="post" autocomplete="off" class="container-sm border p-3">
+                <div class="d-flex flex-column align-items-center w-25 mx-auto">
+
+                    <label for="name">Name</label>
+                    <input type="text" name="name" placeholder="name" id="name" value="<%=user.name%>"
+                        onkeypress="checkBannedChars('name')" class="primaryElem" onkeyup="checkBannedChars('name')">
+
+                    <label for="email">Email</label>
+                    <input type="email" name="email" placeholder="email" value="<%=user.email%>" id="email"
+                        class="primaryElem" onkeypress="checkBannedChars('email')" onkeyup="checkBannedChars('email')">
+
+
+                    <label for="password">Password</label>
+                    <input type="password" name="password" placeholder="password" autocomplete="off" id="password"
+                        class="primaryElem" onkeypress="checkBannedChars('password')"
+                        onkeyup="checkBannedChars('password')">
+
+                    <label for="address">Address</label>
+                    <input onkeypress="checkBannedChars('address')" onkeyup="checkBannedChars('address')" id="address"
+                        class="primaryElem" type="text" value="<%=user.address%>" name="address"
+                        placeholder="full address" autocomplete="off">
+
+                    <button class="primaryElem px-5 mt-4 dodgerblue">Update</button>
+                </div>
+            </form>
+
+            <p class="text-center my-3">Order History</p>
+            <div class="tablediv d-flex justify-content-center container-sm border mt-3 p-3">
+                <table class="orderHistory container-sm">
+                    <tr style="font-weight: bolder;">
+                        <td class="p-2 text-center">Products</td>
+                        <td class="p-2 text-center">Status</td>
+                    </tr>
+                    <% if(typeof orders !='undefined' ) {%>
+                        <% orders.forEach(o2=> { %>
+                            <tr class="border">
+                                <td class="p-2 text-center" style="text-align: left;list-style: none;max-width: 300px;">
+                                    <% o2.userORDER.forEach(o3=> { %>
+                                        <li>
+                                            <%=o3["qty"]%> x <%=o3["productName"]%>
+                                        </li>
+                                        <% }); %>
+                                </td>
+                                <td class="p-2 text-center">
+                                    <%=new Date(o2.date).toLocaleDateString('en-GB') %><br>
+                                        <%if(o2.adminSEEN==="1") {%> Processing ...<%} else {%> Sent! <%}%>
+                                </td>
+                            </tr>
+                    <% }); %>
+                        <%}%>
+                </table>
+            </div>
+
+
+</div>

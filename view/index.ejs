@@ -1,0 +1,78 @@
+
+<%if(typeof user !== "undefined" && "6291085b97cb8135d0aff59c" == user.id) { console.log("Admin logged in.")%> 
+<script>window.location = window.origin+"/adminDash"</script><%}%>
+
+
+<div class="offer">
+  <% if(typeof user !== "undefined") { %>
+    <div class="alert alert-info  d-flex align-items-center fade show" role="alert">
+        <div class="mx-auto">
+            Welcome <%= user.name %>!
+        </div>
+        <button type="button" class="btn-close fade show" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <%}%>
+
+    <p class="text-center fw-bold"> &gt; Trending &lt;</p>
+    <div class="offerContent">
+        <img src="./img/card1.png" class="offerCards" onclick="window.location.href='/products'">
+        <img src="./img/card2.png" class="offerCards" onclick="window.location.href='/products'">
+        <img src="./img/card3.png" class="offerCards" onclick="window.location.href='/products'">
+        <img src="./img/card4.png" class="offerCards" onclick="window.location.href='/products'">
+    </div>
+</div>
+<div class="offer">
+    <p class="text-center fw-bold"> &gt; Most Bought &lt;</p>
+    <div class="offerContent">
+        <img src="./img/card5.png" class="offerCards" onclick="window.location.href='/products'">
+        <img src="./img/card6.png" class="offerCards" onclick="window.location.href='/products'">
+        <img src="./img/card7.png" class="offerCards" onclick="window.location.href='/products'">
+        <img src="./img/card8.png" class="offerCards" onclick="window.location.href='/products'">
+    </div>
+</div>
+<div class="aboutUs">
+
+    <p class="text-center fw-bold"> &gt; About Us &lt;</p>
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+          <div class="carousel-item text-black active">
+            <img src="./img/card5.png" class="d-block carrouselImg" alt="...">
+            <div class="carousel-caption d-md-block">
+              <h5>Happy Cards</h5>
+              <p style="max-width: 600px;">is your one-stop-shop for celebration cards, custom orders, and special event items. We offer a wide selection of cards for every occasion, as well as custom designs created by our team of designers.</p>
+            </div>
+          </div>
+          <div class="carousel-item text-black">
+            <img src="./img/card6.png" class="d-block carrouselImg" alt="...">
+            <div class="carousel-caption d-md-block">
+              <h5>Variety</h5>
+              <p style="max-width: 600px;">We also offer a range of celebration items, including balloons, party favors, and decorations. </p>
+            </div>
+          </div>
+          <div class="carousel-item text-black">
+            <img src="./img/card1.png" class="d-block carrouselImg" alt="...">
+            <div class="carousel-caption d-md-block">
+              <h5>Flexible</h5>
+              <p style="max-width: 600px;">Our goal is to provide high-quality products, exceptional customer service, and affordable prices to make your celebration truly special. Browse our selection today and start creating the perfect card or celebration for your special occasion!</p>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+    <!-- <div>
+       <p class="primaryElem w-75 mx-auto"></p>
+    </div> -->
+</div>

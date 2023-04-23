@@ -1,0 +1,99 @@
+<% var numberOfPages=Math.ceil(count / 8) + 1 %>
+
+<nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+aria-label="breadcrumb">
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Products</li>
+</ol>
+</nav>
+    <div class="productListParent">
+
+
+
+        <div class="productList" style="max-width: 258px!important; z-index: 2;">
+            <div class="divCats" style="position: inherit;left: 7%;">
+                <div class="cats">
+                    <form method="get">
+                        <li>
+                            <input type="submit" name="sortingBy" value="Clear Sorting" class="btn dodgerblue">
+                        </li>
+                    </form>
+                    <% cats.forEach(caT=> { %>
+                        <% if (caT !=="null" ) { %>
+                            <form method="get">
+                                <li>
+                                    <input type="submit" name="sortingBy" value="<%= caT %>" class="btn btn-link">
+                                </li>
+                            </form>
+                            <% } }); %>
+                                <form method="get">
+                                    <li>
+                                        <input hidden type="text" name="sortingBy" value="null" class="btn btn-info">
+                                        <button class="btn dodgerblue" type="submit">Not Categorized</button>
+                                    </li>
+                                </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="productList card text-center">
+
+            <form action="/products" method="get">
+                <div class="d-flex align-items-baseline my-5 justify-content-center flex-row">
+                    <input hidden type="text" name="sortingBy" value="<%=sorting%>" class="btn btn-info">
+                    <% for(var countPage=0; countPage < numberOfPages - 1; countPage++) { %>
+                        <%if(parseInt(numberOfPages - 1)> 1 ) { %>
+                            <input name="page" type="submit" class="btn dodgerblue btn-block mx-2" style="width: fit-content;"
+                                value="<%=countPage%>">
+                        <% } else {%>
+                                <input name="page" type="button" class="btn dodgerblue btn-block mx-2" style="width: fit-content;"value="<%=countPage%>">
+                        <% } %>
+                    <% } %>
+                </div>
+            </form>
+
+
+            <div style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center;">
+                <% counter=1 %>
+                    <% products.forEach(function(data) { %>
+                        <div class="productListContainer">
+                            <form action="/add" method="post">
+                                <% if (typeof user==="object" ) { %>
+                                    <% } %>
+                                        <input type="text" name="productName" value="<%= data.name %>" hidden>
+                                        <input name="qty" type="number" placeholder="1" value="1" min="1" style="text-align: center; max-width: 50px; margin: 2px 6px 0px 10px; font-size: x-large;border-radius: 25%;">
+                                        <button onkeypress="checkBannedChars('name')"
+                                            onkeyup="checkBannedChars('message')" class="addButton" type="submit" style="text-align: center; margin: 2px 10px 0px 6px; padding: 6px;border: none;border-radius: 25%;font-size: x-large;">Add</button>
+                            </form>
+
+                            <div class="product">
+                                <img src="<%= data.img %>" class="productPicture">
+                            </div>
+                            <p id="p<%= counter %>" title="<%= data.name %>"
+                                style="font-size: .8rem;font-weight: bold;word-break: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 200px;">
+                                <%= data.name %>
+                            </p>
+                            <div style="font-weight: bold; transform: translateY(-20px);">£<%= data.price %>
+                            </div>
+                        </div>
+                        <% counter++ } ) %>
+            </div>
+
+            <form action="/products" method="get">
+                <div class="d-flex align-items-baseline my-5 justify-content-center flex-row">
+                    <input hidden type="text" name="sortingBy" value="<%=sorting%>" class="btn btn-info">
+                    <% for(var countPage=0; countPage < numberOfPages - 1; countPage++) { %>
+                        <%if(parseInt(numberOfPages - 1)> 1 ) { %>
+                            <input name="page" type="submit" class="btn dodgerblue btn-block mx-2"
+                                style="width: fit-content;" value="<%=countPage%>">
+                            <% } else {%>
+                                <input name="page" type="button" class="btn dodgerblue btn-block mx-2"
+                                    style="width: fit-content;" value="<%=countPage%>">
+                                <% } %>
+                                    <% } %>
+                </div>
+            </form>
+
+        </div>
+    </div>

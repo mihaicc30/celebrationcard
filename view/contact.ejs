@@ -1,0 +1,63 @@
+<div>
+    <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);"
+        aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Contact</li>
+        </ol>
+    </nav>
+    
+    <%if(typeof success_msg == "string"){%>
+        <div class="alert alert-success  d-flex align-items-center fade show" role="alert">
+            <div class="mx-auto">
+                <p class="text-center"><%= success_msg %></p>
+            </div>
+            <button type="button" class="btn-close fade show" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <%}%>
+
+
+    <div class="contactForm text-center d-flex flex-column">
+        <div class="container d-flex justify-content-center">
+            <div class="cardz">
+                <div class="front d-flex justify-content-center align-items-center">
+                    <h1>Contact Form</h1>
+                    <div class="heart"></div>
+                </div>
+                <div class="back d-flex justify-content-center align-items-center"></div>
+                <div class="rear">
+                    <div>
+                        <form method="post" id="CTForm" class="d-flex flex-column">⭐
+                            <input onkeypress="checkBannedChars('name')" onkeyup="checkBannedChars('name')" type="text" class="primaryElem"
+                                name="name" id="name" placeholder="name" required value="<% if(typeof user !== "undefined") { %><%=user.name%><%}%>">
+                            <input onkeypress="checkBannedChars('email')" class="primaryElem"onkeyup="checkBannedChars('email')"
+                                type="email" name="email" id="email" placeholder="email"
+                                required value="<% if(typeof user !== "undefined") { %><%=user.email%><%}%>">
+                            <textarea onkeypress="checkBannedChars('message')" class="primaryElem"onkeyup="checkBannedChars('message')"
+                                type="text" name="message" id="message" placeholder="message" rows="4" cols="22"
+                                required></textarea>
+                            <button class="primaryElem">Submit</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <script>
+
+                var heart = document.querySelector('.front');
+                var card = document.querySelector('.cardz');
+                var back = document.querySelector('.back');
+                heart.addEventListener('click', function () {
+                    card.classList.toggle('is-flipped');
+                });
+
+                back.addEventListener('click', function () {
+                    card.classList.toggle('is-flipped');
+                });
+            </script>
+
+
+</div>
+</div>
+</div>
