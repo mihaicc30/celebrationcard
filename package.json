@@ -5,9 +5,11 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "nodemon app.js"
   },
-  "keywords": ["gift card shop"],
+  "keywords": [
+    "gift card shop"
+  ],
   "author": "Mihai Culea",
   "license": "ISC",
   "dependencies": {
@@ -21,6 +23,7 @@
     "express-session": "^1.17.3",
     "mongoose": "^7.0.3",
     "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.22",
     "passport": "^0.5.3",
     "passport-local": "^1.0.0",
     "sharp": "^0.32.0"

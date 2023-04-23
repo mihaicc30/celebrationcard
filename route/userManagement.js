@@ -89,7 +89,7 @@ router.post("/Login", (req, res, next) => {
 });
 
 // Logout
-router.get("/Logout", (req, res) => {
+router.get("/Logout", ensureAuthenticated, (req, res) => {
 	req.logout();
 	console.log("User has been logged out");
 	res.redirect("/");

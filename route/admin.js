@@ -8,12 +8,13 @@ const Products = require("../model/Products");
 const {
 	forwardAuthenticated,
 	ensureAuthenticated,
+	ensureIsAdmin,
 } = require("../middleware/auth");
 
 //  adminSEEN: '1' = unseen / unprocessed
 //  adminSEEN: '2' = seen / processed
 
-router.get("/adminDash", ensureAuthenticated, async (req, res) => {
+router.get("/adminDash", ensureAuthenticated, ensureIsAdmin, async (req, res) => {
 	const [
 		orders,
 		newOrders,
@@ -44,7 +45,7 @@ router.get("/adminDash", ensureAuthenticated, async (req, res) => {
 	});
 });
 
-router.get("/adminOrders", ensureAuthenticated, async (req, res) => {
+router.get("/adminOrders", ensureAuthenticated, ensureIsAdmin, async (req, res) => {
 	try {
 		const orders = await Orders.find().sort({ date: -1 }).lean();
 
@@ -58,7 +59,7 @@ router.get("/adminOrders", ensureAuthenticated, async (req, res) => {
 	}
 });
 
-router.get("/adminMessages", ensureAuthenticated, async (req, res) => {
+router.get("/adminMessages", ensureAuthenticated, ensureIsAdmin, async (req, res) => {
 	try {
 		const messages = await Contacts.find().sort({ date: -1 }).lean();
 
@@ -72,7 +73,7 @@ router.get("/adminMessages", ensureAuthenticated, async (req, res) => {
 	}
 });
 
-router.get("/adminProducts", ensureAuthenticated, async (req, res) => {
+router.get("/adminProducts", ensureAuthenticated, ensureIsAdmin, async (req, res) => {
 	try {
 		const products = await Products.find().sort({ date: -1 }).lean();
 
@@ -86,7 +87,7 @@ router.get("/adminProducts", ensureAuthenticated, async (req, res) => {
 	}
 });
 
-router.post("/adminProducts", ensureAuthenticated, async (req, res) => {
+router.post("/adminProducts", ensureAuthenticated, ensureIsAdmin, async (req, res) => {
 	if (req.url.includes("delete")) {
 		await Products.deleteOne({ _id: req.body.productID });
 		const products = await Products.find().sort({ date: -1 }).lean();
@@ -104,7 +105,7 @@ const multer = require("multer");
 const upload = multer({ dest: "./public/img" });
 router.post(
 	"/adminProductsUp",
-	ensureAuthenticated,
+	ensureAuthenticated, ensureIsAdmin,
 	upload.single("myfile"),
 	async (req, res) => {
 		if (req.url.includes("edit")) {
@@ -164,7 +165,7 @@ router.post(
 	},
 );
 
-router.post("/orders_manager_delete", ensureAuthenticated, async (req, res) => {
+router.post("/orders_manager_delete", ensureAuthenticated, ensureIsAdmin, async (req, res) => {
 	const { orderID } = req.body;
 
 	if (req.path.includes("delete")) {
@@ -185,7 +186,7 @@ router.post("/orders_manager_delete", ensureAuthenticated, async (req, res) => {
 
 router.post(
 	"/orders_manager_markseen",
-	ensureAuthenticated,
+	ensureAuthenticated, ensureIsAdmin,
 	async (req, res) => {
 		const { orderID } = req.body;
 		if (req.path.includes("markseen")) {
@@ -209,7 +210,7 @@ router.post(
 		}
 	},
 );
-router.post("/messages_markseen", ensureAuthenticated, async (req, res) => {
+router.post("/messages_markseen", ensureAuthenticated, ensureIsAdmin, async (req, res) => {
 	const { orderID } = req.body;
 	if (req.path.includes("markseen")) {
 		try {

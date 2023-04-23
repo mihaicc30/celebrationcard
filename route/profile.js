@@ -10,7 +10,7 @@ const Orders = require("../model/Orders");
 const User = require("../model/User");
 const Baskets = require("../model/Baskets");
 
-router.get("/profile", ensureAuthenticated, async (req, res) => {
+router.get("/Profile", ensureAuthenticated, async (req, res) => {
 	try {
 		const orders = await Orders.find({ userID: req.user._id }).sort({
 			date: -1,
@@ -36,7 +36,7 @@ router.get("/profile", ensureAuthenticated, async (req, res) => {
 	}
 });
 
-router.post("/profile", ensureAuthenticated, async (req, res) => {
+router.post("/Profile", ensureAuthenticated, async (req, res) => {
 	const { name, email, password, address } = req.body;
 
 	try {

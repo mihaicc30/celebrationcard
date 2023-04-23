@@ -5,7 +5,7 @@ const Contacts = require("../model/Contacts");
 const Baskets = require("../model/Baskets");
 
 router.get("/contact", async(req, res) => {
-	if (req.session.passport?.user) {
+	if (req.isAuthenticated()) {
 		const basket = await Baskets.find({
 			userID: req.session.passport.user.id,
 		}).lean();

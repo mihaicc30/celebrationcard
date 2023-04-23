@@ -68,7 +68,7 @@ aria-label="breadcrumb">
                             </form>
 
                             <div class="product">
-                                <img src="<%= data.img %>" class="productPicture">
+                                <img src="<%= data.img ? data.img : './img/default.png' %>" class="productPicture my-auto">
                             </div>
                             <p id="p<%= counter %>" title="<%= data.name %>"
                                 style="font-size: .8rem;font-weight: bold;word-break: break-word;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;width: 200px;">
