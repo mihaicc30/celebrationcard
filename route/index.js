@@ -6,10 +6,6 @@ const fs = require('fs');
 const Products = require("../model/Products");
 
 router.get("/", async (req, res) => {
-	const query = Products.find({}).limit(2)
-	const results = await query.exec();
-	console.log(results);
-
 	if (req.isAuthenticated()) {
 		const basket = await Baskets.find({
 			userID: req.session.passport.user.id,

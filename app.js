@@ -38,8 +38,13 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, 'view')))
 app.use(express.static(path.join(__dirname, 'route')))
-console.log(path.join(__dirname, 'public'));
 
+
+app.get('/healthcheck', (req, res) => {
+	res.status(200).send('OK');
+  });
+
+  
 app.use("/", require(__dirname + "/route/index.js"));
 app.use("/", require(__dirname + "/route/products.js"));
 app.use("/", require(__dirname + "/route/contact.js"));
@@ -60,6 +65,8 @@ app.all("*", (req, res) => {
 	);
 	res.redirect("/");
 });
+
+
 app.listen(8080, () =>
 	console.log("Server is running on port 8080."),
 );
