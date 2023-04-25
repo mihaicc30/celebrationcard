@@ -15,7 +15,7 @@ async function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
 		return next();
 	}
-	res.render("Login", { error: "Please log in to view this page." });
+	res.render("login", { error: "Please log in to view this page." });
 }
 
 
@@ -26,17 +26,17 @@ async function ensureAuthenticated(req, res, next) {
 
 const User = require("../model/User");
 
-router.get("/Register", forwardAuthenticated, (req, res) => {
-	res.render("Register");
+router.get("/register", forwardAuthenticated, (req, res) => {
+	res.render("register");
 });
 
-router.get("/Login", forwardAuthenticated, (req, res) => {
+router.get("/login", forwardAuthenticated, (req, res) => {
 	res.locals.message = req.flash('error');
-	String(req.url).indexOf("registration=true") >= 0 ? res.render("Login",{reg:true}) : res.render("Login")
+	String(req.url).indexOf("registration=true") >= 0 ? res.render("login",{reg:true}) : res.render("login")
 });
 
 // Register
-router.post("/Register", (req, res) => {
+router.post("/register", (req, res) => {
 	const { name, email, password, passwordRepeat } = req.body;
 	let errors = [];
 
@@ -53,7 +53,7 @@ router.post("/Register", (req, res) => {
 	}
 
 	if (errors.length > 0) {
-		res.render("Register", {
+		res.render("register", {
 			errors,
 			name,
 			email,
@@ -64,7 +64,7 @@ router.post("/Register", (req, res) => {
 		User.findOne({ email: email }).then((user) => {
 			if (user) {
 				errors.push({ msg: "Email already exists!" });
-				res.render("Register", {
+				res.render("register", {
 					errors,
 					name,
 					email,
@@ -85,7 +85,7 @@ router.post("/Register", (req, res) => {
 						newUser
 							.save()
 							.then((user) => {
-								res.redirect("/Login?registration=true");
+								res.redirect("/login?registration=true");
 							})
 							.catch((err) => console.log(err));
 					});
@@ -96,16 +96,16 @@ router.post("/Register", (req, res) => {
 });
 
 // Login
-router.post("/Login", (req, res, next) => {
+router.post("/login", (req, res, next) => {
 	passport.authenticate("local", {
-		failureRedirect: "/Login",
+		failureRedirect: "/login",
 		successRedirect: "/",
 		failureFlash: true,
 	})(req, res, next);
 });
 
 // Logout
-router.get("/Logout", ensureAuthenticated, (req, res) => {
+router.get("/logout", ensureAuthenticated, (req, res) => {
 	req.logout();
 	console.log("User has been logged out");
 	res.redirect("/");
