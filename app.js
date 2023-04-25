@@ -42,16 +42,16 @@ app.use(express.static(path.join(__dirname, 'route')))
 
 app.get('/healthcheck', (req, res) => {
 	res.status(200).send('OK');
-  });
+});
 
   
-app.use("/", require(__dirname + "/route/index.js"));
-app.use("/", require(__dirname + "/route/products.js"));
-app.use("/", require(__dirname + "/route/contact.js"));
-app.use("/", require(__dirname + "/route/basket.js"));
-app.use("/", require(__dirname + "/route/profile.js"));
-app.use("/", require(__dirname + "/route/userManagement.js"));
-app.use("/", require(__dirname + "/route/admin.js"));
+app.use("/", require(path.join(__dirname, '/route/index.js')));
+app.use("/", require(path.join(__dirname, '/route/products.js')));
+app.use("/", require(path.join(__dirname, '/route/contact.js')));
+app.use("/", require(path.join(__dirname, '/route/basket.js')));
+app.use("/", require(path.join(__dirname, '/route/profile.js')));
+app.use("/", require(path.join(__dirname, '/route/userManagement.js')));
+app.use("/", require(path.join(__dirname, '/route/admin.js')));
 
 app.set("views", __dirname + "/view");
 
