@@ -1,12 +1,23 @@
 const express = require("express");
 const router = express.Router();
 const dotenv = require("dotenv").config();
-const {
-	forwardAuthenticated,
-	ensureAuthenticated,
-} = require("../middleware/auth");
 const Products = require("../model/Products");
 const Baskets = require("../model/Baskets");
+
+
+async function forwardAuthenticated(req, res, next) {
+	if (!req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect("/");
+}
+
+async function ensureAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.render("login", { error: "Please log in to view this page." });
+}
 
 router.get("/products", ensureAuthenticated, async (req, res) => {
 	
