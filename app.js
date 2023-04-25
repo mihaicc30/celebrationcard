@@ -9,7 +9,6 @@ const multer = require("multer");
 const flash = require("connect-flash");
 
 require("./middleware/passport")(passport);
-
 mongoose
 	.connect(`${process.env.mongoURI}`, {
 		useNewUrlParser: true,
@@ -17,7 +16,7 @@ mongoose
 	})
 	.then(() => console.log("MongoDB connection successfully made."))
 	.catch((err) => console.log(err));
-mongoose.set('strictQuery', false);
+mongoose.set("strictQuery", false);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(expressLayouts);
@@ -39,13 +38,13 @@ app.use(express.static("public"));
 app.use(express.static("view"));
 app.use(express.static("route"));
 
-app.use("/", require(__dirname+"/route/index.js"));
-app.use("/", require(__dirname+"/route/products.js"));
-app.use("/", require(__dirname+"/route/contact.js"));
-app.use("/", require(__dirname+"/route/basket.js"));
-app.use("/", require(__dirname+"/route/profile.js"));
-app.use("/", require(__dirname+"/route/userManagement.js"));
-app.use("/", require(__dirname+"/route/admin.js"));
+app.use("/", require(__dirname + "/route/index.js"));
+app.use("/", require(__dirname + "/route/products.js"));
+app.use("/", require(__dirname + "/route/contact.js"));
+app.use("/", require(__dirname + "/route/basket.js"));
+app.use("/", require(__dirname + "/route/profile.js"));
+app.use("/", require(__dirname + "/route/userManagement.js"));
+app.use("/", require(__dirname + "/route/admin.js"));
 
 app.set("views", __dirname + "/view");
 
@@ -59,5 +58,6 @@ app.all("*", (req, res) => {
 	);
 	res.redirect("/");
 });
-app.listen(8080, '0.0.0.0', () => console.log('Server is running on port 8080.'));
-
+app.listen(8080, () =>
+	console.log("Server is running on port 8080."),
+);

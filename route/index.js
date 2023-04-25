@@ -2,9 +2,13 @@ const express = require("express");
 const router = express.Router();
 const dotenv = require("dotenv").config();
 const Baskets = require("../model/Baskets");
-const fs = require('fs'); // require the file system module
+const fs = require('fs');
+const Products = require("../model/Products");
 
 router.get("/", async (req, res) => {
+	const query = Products.find({}).limit(2)
+	const results = await query.exec();
+	console.log(results);
 
 	if (req.isAuthenticated()) {
 		const basket = await Baskets.find({
