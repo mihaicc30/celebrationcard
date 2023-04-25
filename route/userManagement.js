@@ -4,16 +4,32 @@ const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const flash = require('connect-flash');
 
-const {
-	forwardAuthenticated,
-	ensureAuthenticated,
-} = require("../middleware/auth");
+async function forwardAuthenticated(req, res, next) {
+	if (!req.isAuthenticated()) {
+		return next();
+	}
+	res.redirect("/");
+}
+
+async function ensureAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+	res.render("Login", { error: "Please log in to view this page." });
+}
+
+
+// const {
+// 	forwardAuthenticated,
+// 	ensureAuthenticated,
+// } = require("../middleware/auth");
 
 const User = require("../model/User");
 
 router.get("/Register", forwardAuthenticated, (req, res) => {
 	res.render("Register");
 });
+
 router.get("/Login", forwardAuthenticated, (req, res) => {
 	res.locals.message = req.flash('error');
 	String(req.url).indexOf("registration=true") >= 0 ? res.render("Login",{reg:true}) : res.render("Login")
