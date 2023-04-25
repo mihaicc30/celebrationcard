@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const dotenv = require("dotenv").config();
 const Baskets = require("../model/Baskets");
+const fs = require('fs'); // require the file system module
 
 router.get("/", async (req, res) => {
+
 	if (req.session.passport?.user) {
 		const basket = await Baskets.find({
 			userID: req.session.passport.user.id,

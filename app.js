@@ -11,7 +11,7 @@ const flash = require("connect-flash");
 require("./middleware/passport")(passport);
 
 mongoose
-	.connect(process.env.mongoURI, {
+	.connect(`${process.env.mongoURI}`, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
@@ -24,7 +24,7 @@ app.set("view engine", "ejs");
 
 app.use(
 	session({
-		secret: process.env.SESSION_SECRET,
+		secret: `${process.env.SESSION_SECRET}`,
 		resave: false,
 		saveUninitialized: false,
 		maxAge: 1 * 60 * 60 * 1000, // 1 hour, a number represented in milliseconds
@@ -58,5 +58,5 @@ app.all("*", (req, res) => {
 	);
 	res.redirect("/");
 });
+app.listen(8080, '0.0.0.0', () => console.log('Server is running on port 8080.'));
 
-app.listen(process.env.PORT, console.log(`Server is running.`));

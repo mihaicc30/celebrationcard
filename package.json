@@ -1,7 +1,7 @@
 {
   "name": "giftshop",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is a web application for an online gift shop. It allows users to browse, search, and purchase gift items. The application is built using Node.js, Express, MongoDB, EJS, and Passport.js.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -27,5 +27,6 @@
     "passport": "^0.5.3",
     "passport-local": "^1.0.0",
     "sharp": "^0.32.0"
-  }
+  },
+  "devDependencies": {}
 }
