@@ -44,8 +44,10 @@ app.get('/healthcheck', (req, res) => {
 	res.status(200).send('OK');
 });
 
-  
-app.use("/", require(path.join(__dirname, '/route/index.js')));
+console.log(path.join(__dirname, './route/index.js'));
+console.log(path.join(__dirname, './public/css/style.css'));
+
+app.use("/", require(path.join(__dirname, './route/index.js')));
 app.use("/", require(path.join(__dirname, '/route/products.js')));
 app.use("/", require(path.join(__dirname, '/route/contact.js')));
 app.use("/", require(path.join(__dirname, '/route/basket.js')));
