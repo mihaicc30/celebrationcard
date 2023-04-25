@@ -17,6 +17,7 @@ mongoose
 	})
 	.then(() => console.log("MongoDB connection successfully made."))
 	.catch((err) => console.log(err));
+mongoose.set('strictQuery', false);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(expressLayouts);

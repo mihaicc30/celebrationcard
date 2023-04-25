@@ -6,7 +6,7 @@ const fs = require('fs'); // require the file system module
 
 router.get("/", async (req, res) => {
 
-	if (req.session.passport?.user) {
+	if (req.isAuthenticated()) {
 		const basket = await Baskets.find({
 			userID: req.session.passport.user.id,
 		}).lean();
@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/index", async (req, res) => {
-	if (req.session.passport.user) {
+	if (req.isAuthenticated()) {
 		const basket = await Baskets.find({
 			userID: req.session.passport.user.id,
 		}).lean();
