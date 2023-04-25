@@ -33,6 +33,7 @@ app.set("view engine", "ejs");
 app.use(
 	session({
 		secret: `${process.env.SESSION_SECRET}`,
+		keys:`${process.env.SESSION_SECRET}`,
 		resave: false,
 		saveUninitialized: false,
 		maxAge: 1 * 60 * 60 * 1000, // 1 hour, a number represented in milliseconds
