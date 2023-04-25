@@ -7,6 +7,7 @@ const app = express();
 const dotenv = require("dotenv").config();
 const multer = require("multer");
 const flash = require("connect-flash");
+const path = require('path')
 
 require("./middleware/passport")(passport);
 mongoose
@@ -34,9 +35,10 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(express.static("public"));
-app.use(express.static("view"));
-app.use(express.static("route"));
+app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'view')))
+app.use(express.static(path.join(__dirname, 'route')))
+console.log(path.join(__dirname, 'public'));
 
 app.use("/", require(__dirname + "/route/index.js"));
 app.use("/", require(__dirname + "/route/products.js"));
