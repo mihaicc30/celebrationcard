@@ -54,6 +54,7 @@ app.use("/", require(path.join(__dirname, '/route/userManagement.js')));
 app.use("/", require(path.join(__dirname, '/route/admin.js')));
 
 app.set("views", __dirname + "/view");
+app.set("routes", __dirname + "/route");
 
 app.use(function (err, req, res, next) {
 	res.locals.message = err.message;
