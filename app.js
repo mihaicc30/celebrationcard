@@ -44,8 +44,8 @@ app.get('/healthcheck', (req, res) => {
 	res.status(200).send('OK');
 });
 
-console.log(path.join(__dirname, './route/index.js'));
-console.log(path.join(__dirname, './public/css/style.css'));
+console.log(path.join(__dirname));
+console.log(path.join(__dirname, '..'));
 
 app.use("/", require(path.join(__dirname, './route/index.js')));
 app.use("/", require(path.join(__dirname, '/route/products.js')));
@@ -57,6 +57,7 @@ app.use("/", require(path.join(__dirname, '/route/admin.js')));
 
 app.set("views", __dirname + "/view");
 app.set("routes", __dirname + "/route");
+app.set("public", __dirname + "/public");
 
 app.use(function (err, req, res, next) {
 	res.locals.message = err.message;
