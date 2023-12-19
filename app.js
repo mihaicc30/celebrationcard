@@ -51,10 +51,7 @@ app.get("/healthcheck", (req, res) => {
 	res.status(200).send("OK");
 });
 
-console.log(path.join(__dirname));
-console.log(path.join(__dirname, ".."));
-
-app.use("/", require(path.join(__dirname, "./route/index.js")));
+app.use("/", require(path.join(__dirname, "/route/index.js")));
 app.use("/", require(path.join(__dirname, "/route/products.js")));
 app.use("/", require(path.join(__dirname, "/route/contact.js")));
 app.use("/", require(path.join(__dirname, "/route/basket.js")));
@@ -77,7 +74,7 @@ app.all("*", (req, res) => {
 	res.redirect("/");
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 connectDB().then(() => {
 	app.listen(PORT, () => console.log(`Server is running on port ${PORT}.`));

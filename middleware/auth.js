@@ -2,8 +2,8 @@ module.exports = {
 	ensureIsAdmin: function (req, res, next) {
 		if (req.isAuthenticated()) {
 			if (
-				req.session.passport.user.email == "admin@admin.admin" &&
-				req.session.passport.user.id == "6291085b97cb8135d0aff59c"
+				req.session.passport.user.email == process.env.ADMIN_EMAIL &&
+				req.session.passport.user.id == process.env.ADMIN_ID
 			) {
 				return next();
 			}
